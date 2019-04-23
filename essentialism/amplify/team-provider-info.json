@@ -10,5 +10,17 @@
             "StackName": "essentialism-20190423163358",
             "StackId": "arn:aws:cloudformation:us-east-1:373264732885:stack/essentialism-20190423163358/1f1820f0-6607-11e9-b85f-0a9ef6cbb06a"
         }
+    },
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "essentialism-20190423164139-authRole",
+            "UnauthRoleArn": "arn:aws:iam::373264732885:role/essentialism-20190423164139-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::373264732885:role/essentialism-20190423164139-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "essentialism-20190423164139-deployment",
+            "UnauthRoleName": "essentialism-20190423164139-unauthRole",
+            "StackName": "essentialism-20190423164139",
+            "StackId": "arn:aws:cloudformation:us-east-1:373264732885:stack/essentialism-20190423164139/3228b190-6608-11e9-91b9-0a00a1b75a8c"
+        }
     }
 }
