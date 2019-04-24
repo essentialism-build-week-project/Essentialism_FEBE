@@ -1,0 +1,10 @@
+{
+    "AppSyncApiName": "essentialism",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authcognito63b86f61",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

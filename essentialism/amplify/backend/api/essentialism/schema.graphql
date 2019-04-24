@@ -1,0 +1,11 @@
+type Value @model {
+    id: ID!
+    name: String!
+    description: String
+}
+
+type Project @model {
+    id: ID!
+    name: String!
+    description: String
+}
