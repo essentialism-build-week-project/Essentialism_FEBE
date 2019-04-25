@@ -3,6 +3,21 @@ import { Box, Card, Heading, Text } from "rebass";
 
 export default function ValueList(props) {
   console.log(props);
+
+  // const handleDelete = async value => {
+  //   const { id } = value;
+  //   try {
+  //     const input = { id };
+  //     const result = await API.graphql(
+  //       graphqlOperation(deleteValue, { input })
+  //     );
+  //     const test = result.data.deleteValue;
+  //     console.log("Test:", test);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   return (
     <div>
       {props.values.map(value => (
@@ -16,6 +31,10 @@ export default function ValueList(props) {
               <Box px={2}>
                 <Heading as="h3">{value.name}</Heading>
                 <Text fontSize={0}>{value.description}</Text>
+                <button onClick={() => props.handleDelete(value)}>
+                  delete!
+                </button>
+                <button onClick={() => console.log("clicked")}>modify!</button>
               </Box>
             </Card>
           </Box>

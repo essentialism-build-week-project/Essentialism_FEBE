@@ -1,6 +1,7 @@
 import { API, graphqlOperation } from "aws-amplify";
 import React, { Component } from "react";
 import { createProject } from "../../graphql/mutations";
+import { Button, Input } from "../Global.Styles";
 import ProjectList from "../ProjectList/ProjectList";
 
 export default class ProjectForm extends Component {
@@ -34,7 +35,7 @@ export default class ProjectForm extends Component {
         <form onSubmit={this.handleSubmit}>
           <label>
             Enter your Project
-            <input
+            <Input
               type="text"
               name="name"
               project={this.state.name}
@@ -44,7 +45,7 @@ export default class ProjectForm extends Component {
           </label>
           <label>
             Describe your Project
-            <input
+            <Input
               type="text"
               name="description"
               project={this.state.description}
@@ -52,7 +53,9 @@ export default class ProjectForm extends Component {
               placeholder="Enter a description for your project"
             />
           </label>
-          <button type="submit">Add Project</button>
+          <Button type="submit" bg="Black" m={1}>
+            Add Project
+          </Button>
         </form>
         <ProjectList projects={this.state.projects} />
       </div>
