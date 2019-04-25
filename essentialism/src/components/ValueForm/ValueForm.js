@@ -53,7 +53,12 @@ export default class ValueForm extends Component {
         updatedValue,
         ...this.state.values.slice(index + 1)
       ];
-      this.setState({ name: "", description: "", values: updatedValues });
+      this.setState({
+        name: "",
+        description: "",
+        id: "",
+        values: updatedValues
+      });
     } else {
       const input = { name, description };
       const result = await API.graphql(

@@ -14,6 +14,12 @@ export default function ProjectList(props) {
               <Box px={2}>
                 <Heading as="h3">{project.name}</Heading>
                 <Text fontSize={0}>{project.description}</Text>
+                <button onClick={() => props.handleDelete(project)}>
+                  delete!
+                </button>
+                <button onClick={() => props.handleModify(project)}>
+                  modify!
+                </button>
               </Box>
             </Card>
           </Box>
