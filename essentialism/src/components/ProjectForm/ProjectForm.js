@@ -1,6 +1,10 @@
 import { API, graphqlOperation } from "aws-amplify";
 import React, { Component } from "react";
-import { createProject, deleteProject } from "../../graphql/mutations";
+import {
+  createProject,
+  deleteProject,
+  updateProject
+} from "../../graphql/mutations";
 import { Button, Input } from "../Global.Styles";
 import ProjectList from "../ProjectList/ProjectList";
 
@@ -40,16 +44,36 @@ export default class ProjectForm extends Component {
   };
 
   handleSubmit = async e => {
-    const { name, description, projects } = this.state;
     e.preventDefault();
-    const input = { name, description };
-    const result = await API.graphql(
-      graphqlOperation(createProject, { input })
-    );
-    const newProject = result.data.createProject;
-    const updatedProjects = [newProject, ...projects];
+    const { name, description, projects, id } = this.state;
+    if (id !== "") {
+      const input = { id, name, description };
+      const result = await API.graphql(
+        graphqlOperation(updateProject, { input })
+      );
+      const updatedProject = result.data.updateProject;
+      const index = projects.findIndex(project => project.id === this.state.id);
+      const updatedProjects = [
+        ...this.state.projects.slice(0, index),
+        updatedProject,
+        ...this.state.projects.slice(index + 1)
+      ];
+      this.setState({
+        name: "",
+        description: "",
+        id: "",
+        projects: updatedProjects
+      });
+    } else {
+      const input = { name, description };
+      const result = await API.graphql(
+        graphqlOperation(createProject, { input })
+      );
+      const newProject = result.data.createProject;
+      const updatedProjects = [newProject, ...projects];
 
-    this.setState({ name: "", description: "", projects: updatedProjects });
+      this.setState({ name: "", description: "", projects: updatedProjects });
+    }
   };
 
   render() {
@@ -81,6 +105,7 @@ export default class ProjectForm extends Component {
           </Button>
         </form>
         <ProjectList
+          handleModify={this.handleModify}
           handleChange={this.handleChange}
           handleDelete={this.handleDelete}
           projects={this.state.projects}
