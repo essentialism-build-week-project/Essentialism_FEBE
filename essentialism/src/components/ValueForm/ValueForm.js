@@ -1,6 +1,6 @@
 import { API, graphqlOperation } from "aws-amplify";
 import React, { Component } from "react";
-import { createValue, deleteValue } from "../../graphql/mutations";
+import { createValue, deleteValue, updateValue } from "../../graphql/mutations";
 import { Button, Input } from "../Global.Styles";
 import ValueList from "../ValueList/ValueList";
 
@@ -8,12 +8,17 @@ export default class ValueForm extends Component {
   state = {
     name: "",
     description: "",
+    id: "",
     values: []
   };
 
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+  };
+
+  handleModify = async value => {
+    this.setState(value);
   };
 
   handleDelete = async value => {
@@ -23,22 +28,42 @@ export default class ValueForm extends Component {
       const result = await API.graphql(
         graphqlOperation(deleteValue, { input })
       );
-      const test = result.data.deleteValue;
-      console.log("Test:", test);
+      const deletedValue = result.data.deleteValue;
+      const updateValues = this.state.values.filter(
+        value => value.id !== deletedValue.id
+      );
+      this.setState({ values: updateValues });
     } catch (err) {
       console.log(err);
     }
   };
 
   handleSubmit = async e => {
-    const { name, description, values } = this.state;
     e.preventDefault();
-    const input = { name, description };
-    const result = await API.graphql(graphqlOperation(createValue, { input }));
-    const newValue = result.data.createValue;
-    const updatedValues = [newValue, ...values];
+    const { name, description, values, id } = this.state;
+    if (id !== "") {
+      const input = { id, name, description };
+      const result = await API.graphql(
+        graphqlOperation(updateValue, { input })
+      );
+      const updatedValue = result.data.updateValue;
+      const index = values.findIndex(value => value.id === this.state.id);
+      const updatedValues = [
+        ...this.state.values.slice(0, index),
+        updatedValue,
+        ...this.state.values.slice(index + 1)
+      ];
+      this.setState({ name: "", description: "", values: updatedValues });
+    } else {
+      const input = { name, description };
+      const result = await API.graphql(
+        graphqlOperation(createValue, { input })
+      );
+      const newValue = result.data.createValue;
+      const updatedValues = [newValue, ...values];
 
-    this.setState({ name: "", description: "", values: updatedValues });
+      this.setState({ name: "", description: "", values: updatedValues });
+    }
   };
 
   render() {
@@ -66,12 +91,14 @@ export default class ValueForm extends Component {
             />
           </label>
           <Button type="submit" bg="Black" m={1}>
-            Add Project
+            {this.state.id === "" ? "Add Value" : "Modify Value"}
           </Button>
         </form>
         <ValueList
+          handleModify={this.handleModify}
           handleDelete={this.handleDelete}
           values={this.state.values}
+          modify={this.state.id === ""}
         />
       </div>
     );
