@@ -49,5 +49,22 @@
                 "cognito63b86f61": {}
             }
         }
+    },
+    "iner": {
+        "awscloudformation": {
+            "AuthRoleName": "essentialism-20190424173805-authRole",
+            "UnauthRoleArn": "arn:aws:iam::171822043093:role/essentialism-20190424173805-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::171822043093:role/essentialism-20190424173805-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "essentialism-20190424173805-deployment",
+            "UnauthRoleName": "essentialism-20190424173805-unauthRole",
+            "StackName": "essentialism-20190424173805",
+            "StackId": "arn:aws:cloudformation:us-west-2:171822043093:stack/essentialism-20190424173805/632ec8c0-66f2-11e9-9082-025219eb189a"
+        },
+        "categories": {
+            "auth": {
+                "cognito63b86f61": {}
+            }
+        }
     }
 }
