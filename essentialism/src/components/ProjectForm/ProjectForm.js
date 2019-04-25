@@ -5,6 +5,7 @@ import {
   deleteProject,
   updateProject
 } from "../../graphql/mutations";
+import { listProjects } from "../../graphql/queries";
 import { Button, Input } from "../Global.Styles";
 import ProjectList from "../ProjectList/ProjectList";
 
@@ -14,6 +15,16 @@ export default class ProjectForm extends Component {
     description: "",
     id: "",
     projects: []
+  };
+
+  componentDidMount = async () => {
+    try {
+      const result = await API.graphql(graphqlOperation(listProjects));
+      const projects = result.data.listProjects.items;
+      this.setState({ projects });
+    } catch (err) {
+      console.log("Error listing projects:", err);
+    }
   };
 
   handleChange = e => {

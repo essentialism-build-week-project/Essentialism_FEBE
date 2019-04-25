@@ -9,15 +9,6 @@ import ValueForm from "./components/ValueForm/ValueForm";
 Amplify.configure(awsmobile);
 
 class App extends React.Component {
-  componentDidMount = () => {
-    // try {
-    //   API.graphql(graphqlOperation(listValues))
-    // }
-    // catch(err) {
-    //   console.log('Error listing values:', err)
-    // }
-  };
-
   render() {
     return (
       <Flex justifyContent="space-around" pt={5}>

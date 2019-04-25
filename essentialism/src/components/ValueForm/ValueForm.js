@@ -1,6 +1,7 @@
 import { API, graphqlOperation } from "aws-amplify";
 import React, { Component } from "react";
 import { createValue, deleteValue, updateValue } from "../../graphql/mutations";
+import { listValues } from "../../graphql/queries";
 import { Button, Input } from "../Global.Styles";
 import ValueList from "../ValueList/ValueList";
 
@@ -10,6 +11,16 @@ export default class ValueForm extends Component {
     description: "",
     id: "",
     values: []
+  };
+
+  componentDidMount = async () => {
+    try {
+      const result = await API.graphql(graphqlOperation(listValues));
+      const values = result.data.listValues.items;
+      this.setState({ values });
+    } catch (err) {
+      console.log("Error listing values:", err);
+    }
   };
 
   handleChange = e => {
