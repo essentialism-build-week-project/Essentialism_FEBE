@@ -130,7 +130,7 @@ export default class ValueForm extends Component {
               />
             </label>
             <label>
-              <p>Give a breif description of your value</p>
+              <p>Give a brief description of your value</p>
               <Input
                 type="text"
                 name="description"
