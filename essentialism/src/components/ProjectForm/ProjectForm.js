@@ -134,7 +134,7 @@ export default class ProjectForm extends Component {
               />
             </label>
             <label>
-              <p>Give a breif description of your Project</p>
+              <p>Give a brief description of your Project</p>
               <Input
                 type="text"
                 name="description"
