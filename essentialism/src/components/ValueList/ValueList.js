@@ -74,6 +74,8 @@ export default function ValueList(props) {
                                     )}
                                 </Draggable>
                             ))}
+                {provided.placeholder}
+
                         </div>
                     )}
                 </Droppable>

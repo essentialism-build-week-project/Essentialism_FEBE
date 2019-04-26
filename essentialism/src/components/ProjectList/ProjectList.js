@@ -52,6 +52,7 @@ export default function ProjectList(props) {
                   )}
                 </Draggable>
               ))}
+              {provided.placeholder}
             </div>
           )}
         </Droppable>
