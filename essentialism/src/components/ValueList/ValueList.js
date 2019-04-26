@@ -10,8 +10,6 @@ export default function ValueList(props) {
         ? props.values.filter((value, index) => index < 3)
         : props.values;
 
-    const coffee = <FontAwesomeIcon icon="coffee" />;
-
     return (
         <div>
             <DragDropContext onDragEnd={props.onDragEnd}>
