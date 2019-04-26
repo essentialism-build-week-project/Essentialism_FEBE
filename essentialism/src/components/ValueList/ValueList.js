@@ -4,7 +4,6 @@ import { Box, Card, Heading, Text } from 'rebass';
 import { Button } from '../Global.Styles';
 
 export default function ValueList(props) {
-    console.log(props);
 
     const values = props.isFiltered
         ? props.values.filter((value, index) => index < 3)
@@ -81,9 +80,9 @@ export default function ValueList(props) {
                 </Droppable>
             </DragDropContext>
             {props.values.length > 3 && !props.isFiltered ? (
-                <Button onClick={props.handleFilter}>Complete</Button>
+                <Button onClick={props.handleFilter}>Essentialize</Button>
             ) : props.values.length > 3 && props.isFiltered ? (
-                <Button onClick={props.handleFilter}>Back</Button>
+                <Button onClick={props.handleFilter}>Un-Essentialize</Button>
             ) : null}
         </div>
     );

@@ -24,6 +24,7 @@ export default class ProjectForm extends Component {
     name: "",
     description: "",
     id: "",
+    isFiltered: false,
     projects: []
   };
 
@@ -37,14 +38,18 @@ export default class ProjectForm extends Component {
     }
   };
 
+  handleFilter = () => {
+    this.setState({ isFiltered: !this.state.isFiltered });
+  };
+
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
     console.log("update");
   };
 
-  handleModify = async value => {
-    this.setState(value);
+  handleModify = async project => {
+    this.setState(project);
   };
 
   handleDelete = async project => {
@@ -151,11 +156,14 @@ export default class ProjectForm extends Component {
           </form>
         </Box>
         <ProjectList
+          handleFilter={this.handleFilter}
           onDragEnd={this.onDragEnd}
           handleModify={this.handleModify}
           handleChange={this.handleChange}
           handleDelete={this.handleDelete}
-          projects={this.state.projects}
+          projects={this.state.projects} 
+          modify={this.state.id === ""}
+          isFiltered={this.state.isFiltered}
         />
       </div>
     );

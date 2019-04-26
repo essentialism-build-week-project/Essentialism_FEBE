@@ -4,13 +4,18 @@ import { Box, Card, Heading, Text } from "rebass";
 import { Button } from "../Global.Styles";
 
 export default function ProjectList(props) {
+
+  const projects = props.isFiltered
+    ? props.projects.filter((value, index) => index < 3)
+    : props.projects;
+
   return (
     <div>
       <DragDropContext onDragEnd={props.onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {props.projects.map((project, index) => (
+              {projects.map((project, index) => (
                 <Draggable
                   key={project.id}
                   draggableId={project.id}
@@ -57,6 +62,11 @@ export default function ProjectList(props) {
           )}
         </Droppable>
       </DragDropContext>
+      {props.projects.length > 3 && !props.isFiltered ? (
+        <Button onClick={props.handleFilter}>Essentialize</Button>
+      ) : props.projects.length > 3 && props.isFiltered ? (
+        <Button onClick={props.handleFilter}>Un-Essentialize</Button>
+      ) : null}
     </div>
   );
 }
