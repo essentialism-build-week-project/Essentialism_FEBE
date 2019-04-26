@@ -80,7 +80,7 @@ export default function ValueList(props) {
             </DragDropContext>
             {props.values.length > 3 && !props.isFiltered ? (
                 <Button onClick={props.handleFilter}>Complete</Button>
-            ) : props.values.length > 1 && props.isFiltered ? (
+            ) : props.values.length > 3 && props.isFiltered ? (
                 <Button onClick={props.handleFilter}>Back</Button>
             ) : null}
         </div>
