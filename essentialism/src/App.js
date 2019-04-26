@@ -6,6 +6,7 @@ import awsmobile from './aws-exports';
 import { Container } from './components/Global.Styles';
 import ProjectForm from './components/ProjectForm/ProjectForm';
 import ValueForm from './components/ValueForm/ValueForm';
+import ModalView from './components/Modal/Modal';
 
 Amplify.configure(awsmobile);
 
@@ -16,6 +17,7 @@ class App extends React.Component {
                 <Flex justifyContent="space-around" pt={5}>
                     <ValueForm />
                     <ProjectForm />
+                    <ModalView />
                 </Flex>
             </Container>
         );
