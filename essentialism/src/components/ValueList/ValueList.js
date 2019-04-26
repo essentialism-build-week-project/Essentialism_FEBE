@@ -6,39 +6,17 @@ import { Button } from "../Global.Styles";
 export default function ValueList(props) {
   console.log(props);
 
-  return (
-    // <div>
-    //   {props.values.map(value => (
-    //     <div key={value.id}>
-    //       <Box width={256}>
-    //         <Card
-    //           p={1}
-    //           mb={3}
-    //           borderRadius={2}
-    //           boxShadow="0 0 5px rgba(0, 0, 0, .25)"
-    //         >
-    //           <Box px={2}>
-    //             <Heading as="h3" pb={3}>{value.name}</Heading>
-    //             <Text fontSize={0} pb={3  }>{value.description}</Text>
-    //             <Button onClick={() => props.handleDelete(value)} mr={2 }>
-    //               delete!
-    //             </Button>
-    //             <Button onClick={() => props.handleModify(value)}>
-    //               modify!
-    //             </Button>
-    //           </Box>
-    //         </Card>
-    //       </Box>
-    //     </div>
-    //   ))}
-    // </div>
+  const values = props.isFiltered
+    ? props.values.filter((value, index) => index < 3)
+    : props.values;
 
+  return (
     <div>
       <DragDropContext onDragEnd={props.onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {props.values.map((value, index) => (
+              {values.map((value, index) => (
                 <Draggable key={value.id} draggableId={value.id} index={index}>
                   {(provided, snapshot) => (
                     <div
@@ -80,6 +58,11 @@ export default function ValueList(props) {
           )}
         </Droppable>
       </DragDropContext>
+      {props.values.length > 2 ? (
+        <Button onClick={props.handleFilter}>Complete</Button>
+      ) : (
+        <Button disabled>Complete</Button>
+      )}
     </div>
   );
 }
