@@ -7,8 +7,15 @@ import { Container } from "./components/Global.Styles";
 import ModalView from "./components/Modal/Modal";
 import ProjectForm from "./components/ProjectForm/ProjectForm";
 import ValueForm from "./components/ValueForm/ValueForm";
-import { createValue, deleteValue, updateValue } from "./graphql/mutations";
-import { listValues } from "./graphql/queries";
+import {
+  createProject,
+  createValue,
+  deleteProject,
+  deleteValue,
+  updateProject,
+  updateValue
+} from "./graphql/mutations";
+import { listProjects, listValues } from "./graphql/queries";
 
 Amplify.configure(awsmobile);
 
@@ -27,7 +34,12 @@ class App extends React.Component {
     valueDescription: "",
     valueId: "",
     valueIsFiltered: false,
-    values: []
+    projectName: "",
+    projectDescription: "",
+    projectId: "",
+    projectIsFiltered: false,
+    values: [],
+    projects: []
   };
 
   initialValueLoad = async () => {
@@ -132,13 +144,117 @@ class App extends React.Component {
     }
   };
 
+  initialProjectLoad = async () => {
+    try {
+      const result = await API.graphql(graphqlOperation(listProjects));
+      const projects = result.data.listProjects.items;
+      this.setState({ projects });
+    } catch (err) {
+      console.log("Error listing projects:", err);
+    }
+  };
+
+  handleProjectFilter = () => {
+    this.setState({ projectIsFiltered: !this.state.projectIsFiltered });
+  };
+
+  handleProjectModify = async project => {
+    this.setState({
+      projectId: project.id,
+      projectName: project.name,
+      projectDescription: project.description
+    });
+  };
+
+  handleProjectDelete = async project => {
+    const { id } = project;
+    try {
+      const input = { id };
+      const result = await API.graphql(
+        graphqlOperation(deleteProject, { input })
+      );
+      const deletedProject = result.data.deleteProject;
+      const updateProjects = this.state.projects.filter(
+        value => value.id !== deletedProject.id
+      );
+      this.setState({ projects: updateProjects });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  onProjectDragEnd = result => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const projects = reorder(
+      this.state.projects,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      projects
+    });
+  };
+
+  handleProjectSubmit = async e => {
+    e.preventDefault();
+    const { projectName, projectDescription, projects, projectId } = this.state;
+    if (projectId !== "") {
+      const input = {
+        id: projectId,
+        name: projectName,
+        description: projectDescription
+      };
+      const result = await API.graphql(
+        graphqlOperation(updateProject, { input })
+      );
+      const updatedProject = result.data.updateProject;
+      const index = projects.findIndex(
+        project => project.id === this.state.projectId
+      );
+      const updatedProjects = [
+        ...this.state.projects.slice(0, index),
+        updatedProject,
+        ...this.state.projects.slice(index + 1)
+      ];
+      this.setState({
+        projectName: "",
+        projectDescription: "",
+        projectId: "",
+        projects: updatedProjects
+      });
+    } else {
+      const input = { name: projectName, description: projectDescription };
+      const result = await API.graphql(
+        graphqlOperation(createProject, { input })
+      );
+      const newProject = result.data.createProject;
+      const updatedProjects = [newProject, ...projects];
+
+      this.setState({
+        projectName: "",
+        projectDescription: "",
+        projects: updatedProjects
+      });
+    }
+  };
+
   render() {
     const {
       valueName,
       valueDescription,
       valueId,
       valueIsFiltered,
-      values
+      values,
+      projectName,
+      projectDescription,
+      projectId,
+      projectIsFiltered,
+      projects
     } = this.state;
     return (
       <Container>
@@ -157,9 +273,25 @@ class App extends React.Component {
             onDragEnd={this.onValueDragEnd}
             handleSubmit={this.handleValueSubmit}
           />
-          <ProjectForm />
+          <ProjectForm
+            name={projectName}
+            description={projectDescription}
+            id={projectId}
+            isFiltered={projectIsFiltered}
+            projects={projects}
+            initialLoad={this.initialProjectLoad}
+            handleFilter={this.handleProjectFilter}
+            handleChange={this.handleChange}
+            handleModify={this.handleProjectModify}
+            handleDelete={this.handleProjectDelete}
+            onDragEnd={this.onProjectDragEnd}
+            handleSubmit={this.handleProjectSubmit}
+          />
           <ModalView />
         </Flex>
+        {this.state.valueIsFiltered && this.state.projectIsFiltered && (
+          <h2>LISTS ARE FILTERED</h2>
+        )}
       </Container>
     );
   }
