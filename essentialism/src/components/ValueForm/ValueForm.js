@@ -17,7 +17,7 @@ export default class ValueForm extends Component {
               <p>Enter a name of something you value</p>
               <Input
                 type="text"
-                name="name"
+                name="valueName"
                 value={this.props.name}
                 onChange={this.props.handleChange}
                 placeholder="Name of value"
@@ -27,7 +27,7 @@ export default class ValueForm extends Component {
               <p>Give a brief description of your value</p>
               <Input
                 type="text"
-                name="description"
+                name="valueDescription"
                 value={this.props.description}
                 onChange={this.props.handleChange}
                 placeholder="Description for value"

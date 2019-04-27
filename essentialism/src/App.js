@@ -23,14 +23,14 @@ const reorder = (list, startIndex, endIndex) => {
 
 class App extends React.Component {
   state = {
-    name: "",
-    description: "",
-    id: "",
-    isFiltered: false,
+    valueName: "",
+    valueDescription: "",
+    valueId: "",
+    valueIsFiltered: false,
     values: []
   };
 
-  initialLoad = async () => {
+  initialValueLoad = async () => {
     try {
       const result = await API.graphql(graphqlOperation(listValues));
       const values = result.data.listValues.items;
@@ -40,8 +40,8 @@ class App extends React.Component {
     }
   };
 
-  handleFilter = () => {
-    this.setState({ isFiltered: !this.state.isFiltered });
+  handleValueFilter = () => {
+    this.setState({ valueIsFiltered: !this.state.valueIsFiltered });
   };
 
   handleChange = e => {
@@ -49,11 +49,15 @@ class App extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleModify = async value => {
-    this.setState(value);
+  handleValueModify = async value => {
+    this.setState({
+      valueId: value.id,
+      valueName: value.name,
+      valueDescription: value.description
+    });
   };
 
-  handleDelete = async value => {
+  handleValueDelete = async value => {
     const { id } = value;
     try {
       const input = { id };
@@ -70,7 +74,7 @@ class App extends React.Component {
     }
   };
 
-  onDragEnd = result => {
+  onValueDragEnd = result => {
     // dropped outside the list
     if (!result.destination) {
       return;
@@ -87,57 +91,71 @@ class App extends React.Component {
     });
   };
 
-  handleSubmit = async e => {
+  handleValueSubmit = async e => {
     e.preventDefault();
-    const { name, description, values, id } = this.state;
-    if (id !== "") {
-      const input = { id, name, description };
+    const { valueName, valueDescription, values, valueId } = this.state;
+    if (valueId !== "") {
+      const input = {
+        id: valueId,
+        name: valueName,
+        description: valueDescription
+      };
       const result = await API.graphql(
         graphqlOperation(updateValue, { input })
       );
       const updatedValue = result.data.updateValue;
-      const index = values.findIndex(value => value.id === this.state.id);
+      const index = values.findIndex(value => value.id === this.state.valueId);
       const updatedValues = [
         ...this.state.values.slice(0, index),
         updatedValue,
         ...this.state.values.slice(index + 1)
       ];
       this.setState({
-        name: "",
-        description: "",
-        id: "",
+        valueName: "",
+        valueDescription: "",
+        valueId: "",
         values: updatedValues
       });
     } else {
-      const input = { name, description };
+      const input = { name: valueName, description: valueDescription };
       const result = await API.graphql(
         graphqlOperation(createValue, { input })
       );
       const newValue = result.data.createValue;
       const updatedValues = [newValue, ...values];
 
-      this.setState({ name: "", description: "", values: updatedValues });
+      this.setState({
+        valueName: "",
+        valueDescription: "",
+        values: updatedValues
+      });
     }
   };
 
   render() {
-    const { name, description, id, isFiltered, values } = this.state;
+    const {
+      valueName,
+      valueDescription,
+      valueId,
+      valueIsFiltered,
+      values
+    } = this.state;
     return (
       <Container>
         <Flex justifyContent="space-around" pt={5}>
           <ValueForm
-            name={name}
-            description={description}
-            id={id}
-            isFiltered={isFiltered}
+            name={valueName}
+            description={valueDescription}
+            id={valueId}
+            isFiltered={valueIsFiltered}
             values={values}
-            initialLoad={this.initialLoad}
-            handleFilter={this.handleFilter}
+            initialLoad={this.initialValueLoad}
+            handleFilter={this.handleValueFilter}
             handleChange={this.handleChange}
-            handleModify={this.handleModify}
-            handleDelete={this.handleDelete}
-            onDragEnd={this.onDragEnd}
-            handleSubmit={this.handleSubmit}
+            handleModify={this.handleValueModify}
+            handleDelete={this.handleValueDelete}
+            onDragEnd={this.onValueDragEnd}
+            handleSubmit={this.handleValueSubmit}
           />
           <ProjectForm />
           <ModalView />
