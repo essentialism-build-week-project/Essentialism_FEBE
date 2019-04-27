@@ -3,6 +3,7 @@ import { withAuthenticator } from "aws-amplify-react";
 import React from "react";
 import { Flex } from "rebass";
 import awsmobile from "./aws-exports";
+import FinalPage from "./components/FinalPage/FinalPage";
 import { Container } from "./components/Global.Styles";
 import ModalView from "./components/Modal/Modal";
 import ProjectForm from "./components/ProjectForm/ProjectForm";
@@ -39,7 +40,12 @@ class App extends React.Component {
     projectId: "",
     projectIsFiltered: false,
     values: [],
-    projects: []
+    projects: [],
+    modalDesc: ""
+  };
+
+  handleModalSubmit = modalDesc => {
+    this.setState({ modalDesc });
   };
 
   initialValueLoad = async () => {
@@ -154,6 +160,10 @@ class App extends React.Component {
     }
   };
 
+  handleClearModalDesc = () => {
+    this.setState({ modalDesc: "" });
+  };
+
   handleProjectFilter = () => {
     this.setState({ projectIsFiltered: !this.state.projectIsFiltered });
   };
@@ -259,39 +269,49 @@ class App extends React.Component {
     return (
       <Container>
         <Flex justifyContent="space-around" pt={5}>
-          <ValueForm
-            name={valueName}
-            description={valueDescription}
-            id={valueId}
-            isFiltered={valueIsFiltered}
-            values={values}
-            initialLoad={this.initialValueLoad}
-            handleFilter={this.handleValueFilter}
-            handleChange={this.handleChange}
-            handleModify={this.handleValueModify}
-            handleDelete={this.handleValueDelete}
-            onDragEnd={this.onValueDragEnd}
-            handleSubmit={this.handleValueSubmit}
-          />
-          <ProjectForm
-            name={projectName}
-            description={projectDescription}
-            id={projectId}
-            isFiltered={projectIsFiltered}
-            projects={projects}
-            initialLoad={this.initialProjectLoad}
-            handleFilter={this.handleProjectFilter}
-            handleChange={this.handleChange}
-            handleModify={this.handleProjectModify}
-            handleDelete={this.handleProjectDelete}
-            onDragEnd={this.onProjectDragEnd}
-            handleSubmit={this.handleProjectSubmit}
-          />
-          <ModalView />
+          {this.state.valueIsFiltered && this.state.projectIsFiltered && (
+            <ModalView handleModalSubmit={this.handleModalSubmit} />
+          )}
+          {this.state.modalDesc ? (
+            <FinalPage
+              values={this.state.values}
+              projects={this.state.projects}
+              modalDesc={this.state.modalDesc}
+              handleClearModalDesc={this.handleClearModalDesc}
+            />
+          ) : (
+            <>
+              <ValueForm
+                name={valueName}
+                description={valueDescription}
+                id={valueId}
+                isFiltered={valueIsFiltered}
+                values={values}
+                initialLoad={this.initialValueLoad}
+                handleFilter={this.handleValueFilter}
+                handleChange={this.handleChange}
+                handleModify={this.handleValueModify}
+                handleDelete={this.handleValueDelete}
+                onDragEnd={this.onValueDragEnd}
+                handleSubmit={this.handleValueSubmit}
+              />
+              <ProjectForm
+                name={projectName}
+                description={projectDescription}
+                id={projectId}
+                isFiltered={projectIsFiltered}
+                projects={projects}
+                initialLoad={this.initialProjectLoad}
+                handleFilter={this.handleProjectFilter}
+                handleChange={this.handleChange}
+                handleModify={this.handleProjectModify}
+                handleDelete={this.handleProjectDelete}
+                onDragEnd={this.onProjectDragEnd}
+                handleSubmit={this.handleProjectSubmit}
+              />
+            </>
+          )}
         </Flex>
-        {this.state.valueIsFiltered && this.state.projectIsFiltered && (
-          <h2>LISTS ARE FILTERED</h2>
-        )}
       </Container>
     );
   }
