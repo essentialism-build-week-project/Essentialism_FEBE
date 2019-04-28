@@ -8044,6 +8044,13 @@ react-beautiful-dnd@^11.0.1:
     tiny-invariant "^1.0.4"
     use-memo-one "^1.1.0"
 
+react-confetti@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-confetti/-/react-confetti-3.1.0.tgz#b7584e8d23a3e021354f0ad6ef092ef5f7962698"
+  integrity sha512-T1DKt09C9rrf2BJ0OxFu8saPohFalOJfOgci11/ePz6DxbY+0cd/3CMimxj/ZITl7jQWnmC/bNWBgGheke3WZQ==
+  dependencies:
+    tween-functions "^1.2.0"
+
 react-dev-utils@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-9.0.0.tgz#356d95db442441c5d4748e0e49f4fd1e71aecbbd"
@@ -9537,6 +9544,11 @@ tunnel-agent@^0.6.0:
   integrity sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=
   dependencies:
     safe-buffer "^5.0.1"
+
+tween-functions@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tween-functions/-/tween-functions-1.2.0.tgz#1ae3a50e7c60bb3def774eac707acbca73bbc3ff"
+  integrity sha1-GuOlDnxguz3vd06scHrLynO7w/8=
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"

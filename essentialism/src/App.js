@@ -268,50 +268,48 @@ class App extends React.Component {
     } = this.state;
     return (
       <Container>
-        <Flex justifyContent="space-around" pt={5}>
-          {this.state.valueIsFiltered && this.state.projectIsFiltered && (
-            <ModalView handleModalSubmit={this.handleModalSubmit} />
-          )}
-          {this.state.modalDesc ? (
-            <FinalPage
-              values={this.state.values}
-              projects={this.state.projects}
-              modalDesc={this.state.modalDesc}
-              handleClearModalDesc={this.handleClearModalDesc}
+        {this.state.valueIsFiltered && this.state.projectIsFiltered && (
+          <ModalView handleModalSubmit={this.handleModalSubmit} />
+        )}
+        {this.state.modalDesc ? (
+          <FinalPage
+            values={this.state.values}
+            projects={this.state.projects}
+            modalDesc={this.state.modalDesc}
+            handleClearModalDesc={this.handleClearModalDesc}
+          />
+        ) : (
+          <Flex justifyContent="space-around" pt={5}>
+            <ValueForm
+              name={valueName}
+              description={valueDescription}
+              id={valueId}
+              isFiltered={valueIsFiltered}
+              values={values}
+              initialLoad={this.initialValueLoad}
+              handleFilter={this.handleValueFilter}
+              handleChange={this.handleChange}
+              handleModify={this.handleValueModify}
+              handleDelete={this.handleValueDelete}
+              onDragEnd={this.onValueDragEnd}
+              handleSubmit={this.handleValueSubmit}
             />
-          ) : (
-            <>
-              <ValueForm
-                name={valueName}
-                description={valueDescription}
-                id={valueId}
-                isFiltered={valueIsFiltered}
-                values={values}
-                initialLoad={this.initialValueLoad}
-                handleFilter={this.handleValueFilter}
-                handleChange={this.handleChange}
-                handleModify={this.handleValueModify}
-                handleDelete={this.handleValueDelete}
-                onDragEnd={this.onValueDragEnd}
-                handleSubmit={this.handleValueSubmit}
-              />
-              <ProjectForm
-                name={projectName}
-                description={projectDescription}
-                id={projectId}
-                isFiltered={projectIsFiltered}
-                projects={projects}
-                initialLoad={this.initialProjectLoad}
-                handleFilter={this.handleProjectFilter}
-                handleChange={this.handleChange}
-                handleModify={this.handleProjectModify}
-                handleDelete={this.handleProjectDelete}
-                onDragEnd={this.onProjectDragEnd}
-                handleSubmit={this.handleProjectSubmit}
-              />
-            </>
-          )}
-        </Flex>
+            <ProjectForm
+              name={projectName}
+              description={projectDescription}
+              id={projectId}
+              isFiltered={projectIsFiltered}
+              projects={projects}
+              initialLoad={this.initialProjectLoad}
+              handleFilter={this.handleProjectFilter}
+              handleChange={this.handleChange}
+              handleModify={this.handleProjectModify}
+              handleDelete={this.handleProjectDelete}
+              onDragEnd={this.onProjectDragEnd}
+              handleSubmit={this.handleProjectSubmit}
+            />
+          </Flex>
+        )}
       </Container>
     );
   }
