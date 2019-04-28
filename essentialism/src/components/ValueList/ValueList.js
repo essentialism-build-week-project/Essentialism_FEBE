@@ -1,10 +1,11 @@
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Box, Card, Heading, Text } from 'rebass';
+import { Box, Card, Heading, Text, Flex } from 'rebass';
 import { Button } from '../Global.Styles';
 
 export default function ValueList(props) {
-
     const values = props.isFiltered
         ? props.values.filter((value, index) => index < 3)
         : props.values;
@@ -47,25 +48,32 @@ export default function ValueList(props) {
                                                         >
                                                             {value.description}
                                                         </Text>
-                                                        <Button
+                                                        <Flex>
+
+                                                        <Box mr={3}>
+
+                                                        <FontAwesomeIcon
+                                                            icon={faTrashAlt}
                                                             onClick={() =>
                                                                 props.handleDelete(
                                                                     value
                                                                 )
                                                             }
                                                             mr={2}
-                                                        >
-                                                            delete!
-                                                        </Button>
-                                                        <Button
+                                                        />
+                                                        </Box>
+                                                            <Box>
+
+                                                        <FontAwesomeIcon
+                                                            icon={faEdit}
                                                             onClick={() =>
                                                                 props.handleModify(
                                                                     value
                                                                 )
                                                             }
-                                                        >
-                                                            modify!
-                                                        </Button>
+                                                        />
+                                                            </Box>
+                                                        </Flex>
                                                     </Box>
                                                 </Card>
                                             </Box>
@@ -73,8 +81,7 @@ export default function ValueList(props) {
                                     )}
                                 </Draggable>
                             ))}
-                {provided.placeholder}
-
+                            {provided.placeholder}
                         </div>
                     )}
                 </Droppable>
