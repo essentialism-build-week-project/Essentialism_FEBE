@@ -1,10 +1,10 @@
-type Value @model {
+type Value @model @auth(rules: [{ allow: owner }]) {
     id: ID!
     name: String!
     description: String
 }
 
-type Project @model {
+type Project @model @auth(rules: [{ allow: owner }]) {
     id: ID!
     name: String!
     description: String
