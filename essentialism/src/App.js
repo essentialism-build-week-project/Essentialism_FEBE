@@ -1,5 +1,5 @@
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { withAuthenticator } from "aws-amplify-react";
+import { AmplifyTheme, withAuthenticator } from "aws-amplify-react";
 import React from "react";
 import { Flex } from "rebass";
 import awsmobile from "./aws-exports";
@@ -315,4 +315,31 @@ class App extends React.Component {
   }
 }
 
-export default withAuthenticator(App, true);
+const theme = {
+  ...AmplifyTheme,
+  a: {
+    ...AmplifyTheme.a,
+    color: "black",
+    fontWeight: 600,
+    textDecoration: "underline"
+  },
+  formContainer: {
+    ...AmplifyTheme.formContainer,
+    marginTop: "15%"
+  },
+  sectionHeader: {
+    ...AmplifyTheme.sectionHeader,
+    backgroundColor: "var(--squidInk)"
+  },
+  sectionBody: {
+    ...AmplifyTheme.sectionBody,
+    margin: "0"
+  },
+  formSection: {
+    ...AmplifyTheme.formSection,
+    borderRadius: "1%",
+    padding: "25px"
+  }
+};
+
+export default withAuthenticator(App, true, [], null, theme);
