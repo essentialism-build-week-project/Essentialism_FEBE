@@ -17,7 +17,7 @@ export default function FinalPage(props) {
 
           {props.values.map((value, index) =>
             index < 3 ? (
-              <>
+              <div key={value.id}>
                 <Box width={256}>
                   <Card
                     p={1}
@@ -35,7 +35,7 @@ export default function FinalPage(props) {
                     </Box>
                   </Card>
                 </Box>
-              </>
+              </div>
             ) : null
           )}
         </div>
@@ -43,7 +43,7 @@ export default function FinalPage(props) {
           <h3>Your top 3 projects</h3>
           {props.projects.map((project, index) =>
             index < 3 ? (
-              <>
+              <div key={project.id}>
                 <Box width={256}>
                   <Card
                     p={1}
@@ -61,7 +61,7 @@ export default function FinalPage(props) {
                     </Box>
                   </Card>
                 </Box>
-              </>
+              </div>
             ) : null
           )}
         </div>
