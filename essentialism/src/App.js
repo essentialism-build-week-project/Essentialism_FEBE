@@ -62,14 +62,14 @@ class App extends React.Component {
     };
 
     initialValueLoad = async () => {
-      try {
-            NProgress.start()
+        try {
+            NProgress.start();
             const result = await API.graphql(graphqlOperation(listValues));
             const values = result.data.listValues.items;
             this.setState({ values }, () => NProgress.done());
-          } catch (err) {
+        } catch (err) {
             console.log('Error listing values:', err);
-          }
+        }
     };
 
     handleValueFilter = () => {
@@ -92,6 +92,7 @@ class App extends React.Component {
     handleValueDelete = async value => {
         const { id } = value;
         try {
+            NProgress.start();
             const input = { id };
             const result = await API.graphql(
                 graphqlOperation(deleteValue, { input })
@@ -100,10 +101,10 @@ class App extends React.Component {
             const updateValues = this.state.values.filter(
                 value => value.id !== deletedValue.id
             );
-            this.setState({ values: updateValues });
-          } catch (err) {
+            this.setState({ values: updateValues }, () => NProgress.done());
+        } catch (err) {
             console.log(err);
-          }
+        }
     };
 
     onValueDragEnd = result => {
@@ -127,6 +128,7 @@ class App extends React.Component {
         e.preventDefault();
         const { valueName, valueDescription, values, valueId } = this.state;
         if (valueId !== '') {
+            NProgress.start();
             const input = {
                 id: valueId,
                 name: valueName,
@@ -144,13 +146,17 @@ class App extends React.Component {
                 updatedValue,
                 ...this.state.values.slice(index + 1)
             ];
-            this.setState({
-                valueName: '',
-                valueDescription: '',
-                valueId: '',
-                values: updatedValues
-            });
+            this.setState(
+                {
+                    valueName: '',
+                    valueDescription: '',
+                    valueId: '',
+                    values: updatedValues
+                },
+                () => NProgress.done()
+            );
         } else {
+            NProgress.start();
             const input = { name: valueName, description: valueDescription };
             const result = await API.graphql(
                 graphqlOperation(createValue, { input })
@@ -158,19 +164,23 @@ class App extends React.Component {
             const newValue = result.data.createValue;
             const updatedValues = [newValue, ...values];
 
-            this.setState({
-                valueName: '',
-                valueDescription: '',
-                values: updatedValues
-            });
+            this.setState(
+                {
+                    valueName: '',
+                    valueDescription: '',
+                    values: updatedValues
+                },
+                () => NProgress.done()
+            );
         }
     };
 
     initialProjectLoad = async () => {
         try {
+            NProgress.start();
             const result = await API.graphql(graphqlOperation(listProjects));
             const projects = result.data.listProjects.items;
-            this.setState({ projects });
+            this.setState({ projects }, () => NProgress.done());
         } catch (err) {
             console.log('Error listing projects:', err);
         }
@@ -185,16 +195,25 @@ class App extends React.Component {
     };
 
     handleProjectModify = async project => {
-        this.setState({
-            projectId: project.id,
-            projectName: project.name,
-            projectDescription: project.description
-        });
+        try {
+            NProgress.start();
+            this.setState(
+                {
+                    projectId: project.id,
+                    projectName: project.name,
+                    projectDescription: project.description
+                },
+                NProgress.done()
+            );
+        } catch (err) {
+            console.log('There was an error updating list:', err);
+        }
     };
 
     handleProjectDelete = async project => {
         const { id } = project;
         try {
+            NProgress.start()
             const input = { id };
             const result = await API.graphql(
                 graphqlOperation(deleteProject, { input })
@@ -203,7 +222,7 @@ class App extends React.Component {
             const updateProjects = this.state.projects.filter(
                 value => value.id !== deletedProject.id
             );
-            this.setState({ projects: updateProjects });
+            this.setState({ projects: updateProjects }, () => NProgress.done());
         } catch (err) {
             console.log(err);
         }
@@ -235,6 +254,7 @@ class App extends React.Component {
             projectId
         } = this.state;
         if (projectId !== '') {
+            NProgress.start()
             const input = {
                 id: projectId,
                 name: projectName,
@@ -257,8 +277,9 @@ class App extends React.Component {
                 projectDescription: '',
                 projectId: '',
                 projects: updatedProjects
-            });
+            }, () => NProgress.done());
         } else {
+            NProgress.start()
             const input = {
                 name: projectName,
                 description: projectDescription
@@ -273,7 +294,7 @@ class App extends React.Component {
                 projectName: '',
                 projectDescription: '',
                 projects: updatedProjects
-            });
+            }, () => NProgress.done());
         }
     };
 
