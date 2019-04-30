@@ -1,4 +1,4 @@
-type Value @model @auth(rules: [{ allow: owner }]) {
+type Value @model @auth( rules: [{ allow: owner }]){
     id: ID!
     name: String!
     description: String

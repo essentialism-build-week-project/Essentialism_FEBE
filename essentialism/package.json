@@ -8,6 +8,8 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "aws-amplify": "^1.1.26",
     "aws-amplify-react": "^2.3.6",
+    "grommet": "^2.6.6",
+    "nprogress": "^0.2.0",
     "react": "^16.8.6",
     "react-beautiful-dnd": "^11.0.1",
     "react-confetti": "^3.1.0",
