@@ -23,6 +23,8 @@ import { listProjects, listValues } from './graphql/queries';
 
 Amplify.configure(awsmobile);
 
+NProgress.configure({ showSpinner: false })
+
 const reorder = (list, startIndex, endIndex) => {
     //will work for both value and project
     const result = Array.from(list);
