@@ -1,374 +1,376 @@
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
-import { AmplifyTheme, withAuthenticator } from 'aws-amplify-react';
-import { Grommet } from 'grommet';
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
-import React from 'react';
-import { Flex } from 'rebass';
-import awsmobile from './aws-exports';
-import FinalPage from './components/FinalPage/FinalPage';
-import { Container } from './components/Global.Styles';
-import ModalView from './components/Modal/Modal';
-import ProjectForm from './components/ProjectForm/ProjectForm';
-import ValueForm from './components/ValueForm/ValueForm';
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+import { AmplifyTheme, withAuthenticator } from "aws-amplify-react";
+import { Grommet } from "grommet";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import React from "react";
+import { Flex } from "rebass";
+import awsmobile from "./aws-exports";
+import FinalPage from "./components/FinalPage/FinalPage";
+import { Container } from "./components/Global.Styles";
+import ModalView from "./components/Modal/Modal";
+import ProjectForm from "./components/ProjectForm/ProjectForm";
+import ValueForm from "./components/ValueForm/ValueForm";
 import {
-    createProject,
-    createValue,
-    deleteProject,
-    deleteValue,
-    updateProject,
-    updateValue
-} from './graphql/mutations';
-import { listProjects, listValues } from './graphql/queries';
+  createProject,
+  createValue,
+  deleteProject,
+  deleteValue,
+  updateProject,
+  updateValue
+} from "./graphql/mutations";
+import { listProjects, listValues } from "./graphql/queries";
 
 Amplify.configure(awsmobile);
 
 const reorder = (list, startIndex, endIndex) => {
-    //will work for both value and project
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
+  //will work for both value and project
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-    return result;
+  return result;
 };
 
 const themeGrommet = {
-    global: {
-        font: {
-            family: 'Roboto',
-            size: '14px',
-            height: '20px'
-        }
+  global: {
+    font: {
+      family: "Roboto",
+      size: "1rem",
+      height: "1rem"
+    },
+    colors: {
+      border: "#00739D",
+      placeholder: "#B0E0E6"
+    },
+    focus: {
+      color: "#00739D"
     }
+  },
+  textInput: {
+    placeholder: {
+      extend: "color:#191970"
+    }
+  }
 };
 
 class App extends React.Component {
-    state = {
-        valueName: '',
-        valueDescription: '',
-        valueId: '',
-        valueIsFiltered: false,
-        projectName: '',
-        projectDescription: '',
-        projectId: '',
-        projectIsFiltered: false,
-        values: [],
-        projects: [],
-        modalDesc: ''
-    };
+  state = {
+    valueName: "",
+    valueDescription: "",
+    valueId: "",
+    valueIsFiltered: false,
+    projectName: "",
+    projectDescription: "",
+    projectId: "",
+    projectIsFiltered: false,
+    values: [],
+    projects: [],
+    modalDesc: ""
+  };
 
-    handleModalSubmit = modalDesc => {
-        this.setState({ modalDesc });
-    };
+  handleModalSubmit = modalDesc => {
+    this.setState({ modalDesc });
+  };
 
-    initialValueLoad = async () => {
-      try {
-            NProgress.start()
-            const result = await API.graphql(graphqlOperation(listValues));
-            const values = result.data.listValues.items;
-            this.setState({ values }, () => NProgress.done());
-          } catch (err) {
-            console.log('Error listing values:', err);
-          }
-    };
-
-    handleValueFilter = () => {
-        this.setState({ valueIsFiltered: !this.state.valueIsFiltered });
-    };
-
-    handleChange = e => {
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
-    };
-
-    handleValueModify = async value => {
-        this.setState({
-            valueId: value.id,
-            valueName: value.name,
-            valueDescription: value.description
-        });
-    };
-
-    handleValueDelete = async value => {
-        const { id } = value;
-        try {
-            const input = { id };
-            const result = await API.graphql(
-                graphqlOperation(deleteValue, { input })
-            );
-            const deletedValue = result.data.deleteValue;
-            const updateValues = this.state.values.filter(
-                value => value.id !== deletedValue.id
-            );
-            this.setState({ values: updateValues });
-          } catch (err) {
-            console.log(err);
-          }
-    };
-
-    onValueDragEnd = result => {
-        // dropped outside the list
-        if (!result.destination) {
-            return;
-        }
-
-        const values = reorder(
-            this.state.values,
-            result.source.index,
-            result.destination.index
-        );
-
-        this.setState({
-            values
-        });
-    };
-
-    handleValueSubmit = async e => {
-        e.preventDefault();
-        const { valueName, valueDescription, values, valueId } = this.state;
-        if (valueId !== '') {
-            const input = {
-                id: valueId,
-                name: valueName,
-                description: valueDescription
-            };
-            const result = await API.graphql(
-                graphqlOperation(updateValue, { input })
-            );
-            const updatedValue = result.data.updateValue;
-            const index = values.findIndex(
-                value => value.id === this.state.valueId
-            );
-            const updatedValues = [
-                ...this.state.values.slice(0, index),
-                updatedValue,
-                ...this.state.values.slice(index + 1)
-            ];
-            this.setState({
-                valueName: '',
-                valueDescription: '',
-                valueId: '',
-                values: updatedValues
-            });
-        } else {
-            const input = { name: valueName, description: valueDescription };
-            const result = await API.graphql(
-                graphqlOperation(createValue, { input })
-            );
-            const newValue = result.data.createValue;
-            const updatedValues = [newValue, ...values];
-
-            this.setState({
-                valueName: '',
-                valueDescription: '',
-                values: updatedValues
-            });
-        }
-    };
-
-    initialProjectLoad = async () => {
-        try {
-            const result = await API.graphql(graphqlOperation(listProjects));
-            const projects = result.data.listProjects.items;
-            this.setState({ projects });
-        } catch (err) {
-            console.log('Error listing projects:', err);
-        }
-    };
-
-    handleClearModalDesc = () => {
-        this.setState({ modalDesc: '' });
-    };
-
-    handleProjectFilter = () => {
-        this.setState({ projectIsFiltered: !this.state.projectIsFiltered });
-    };
-
-    handleProjectModify = async project => {
-        this.setState({
-            projectId: project.id,
-            projectName: project.name,
-            projectDescription: project.description
-        });
-    };
-
-    handleProjectDelete = async project => {
-        const { id } = project;
-        try {
-            const input = { id };
-            const result = await API.graphql(
-                graphqlOperation(deleteProject, { input })
-            );
-            const deletedProject = result.data.deleteProject;
-            const updateProjects = this.state.projects.filter(
-                value => value.id !== deletedProject.id
-            );
-            this.setState({ projects: updateProjects });
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    onProjectDragEnd = result => {
-        // dropped outside the list
-        if (!result.destination) {
-            return;
-        }
-
-        const projects = reorder(
-            this.state.projects,
-            result.source.index,
-            result.destination.index
-        );
-
-        this.setState({
-            projects
-        });
-    };
-
-    handleProjectSubmit = async e => {
-        e.preventDefault();
-        const {
-            projectName,
-            projectDescription,
-            projects,
-            projectId
-        } = this.state;
-        if (projectId !== '') {
-            const input = {
-                id: projectId,
-                name: projectName,
-                description: projectDescription
-            };
-            const result = await API.graphql(
-                graphqlOperation(updateProject, { input })
-            );
-            const updatedProject = result.data.updateProject;
-            const index = projects.findIndex(
-                project => project.id === this.state.projectId
-            );
-            const updatedProjects = [
-                ...this.state.projects.slice(0, index),
-                updatedProject,
-                ...this.state.projects.slice(index + 1)
-            ];
-            this.setState({
-                projectName: '',
-                projectDescription: '',
-                projectId: '',
-                projects: updatedProjects
-            });
-        } else {
-            const input = {
-                name: projectName,
-                description: projectDescription
-            };
-            const result = await API.graphql(
-                graphqlOperation(createProject, { input })
-            );
-            const newProject = result.data.createProject;
-            const updatedProjects = [newProject, ...projects];
-
-            this.setState({
-                projectName: '',
-                projectDescription: '',
-                projects: updatedProjects
-            });
-        }
-    };
-
-    render() {
-        const {
-            valueName,
-            valueDescription,
-            valueId,
-            valueIsFiltered,
-            values,
-            projectName,
-            projectDescription,
-            projectId,
-            projectIsFiltered,
-            projects
-        } = this.state;
-        return (
-            <Grommet theme={themeGrommet}>
-                <Container>
-                    {this.state.valueIsFiltered &&
-                        this.state.projectIsFiltered && (
-                            <ModalView
-                                handleModalSubmit={this.handleModalSubmit}
-                            />
-                        )}
-                    {this.state.modalDesc ? (
-                        <FinalPage
-                            values={this.state.values}
-                            projects={this.state.projects}
-                            modalDesc={this.state.modalDesc}
-                            handleClearModalDesc={this.handleClearModalDesc}
-                        />
-                    ) : (
-                        <Flex justifyContent="space-around" pt={5}>
-                            <ValueForm
-                                name={valueName}
-                                description={valueDescription}
-                                id={valueId}
-                                isFiltered={valueIsFiltered}
-                                values={values}
-                                initialLoad={this.initialValueLoad}
-                                handleFilter={this.handleValueFilter}
-                                handleChange={this.handleChange}
-                                handleModify={this.handleValueModify}
-                                handleDelete={this.handleValueDelete}
-                                onDragEnd={this.onValueDragEnd}
-                                handleSubmit={this.handleValueSubmit}
-                            />
-                            <ProjectForm
-                                name={projectName}
-                                description={projectDescription}
-                                id={projectId}
-                                isFiltered={projectIsFiltered}
-                                projects={projects}
-                                initialLoad={this.initialProjectLoad}
-                                handleFilter={this.handleProjectFilter}
-                                handleChange={this.handleChange}
-                                handleModify={this.handleProjectModify}
-                                handleDelete={this.handleProjectDelete}
-                                onDragEnd={this.onProjectDragEnd}
-                                handleSubmit={this.handleProjectSubmit}
-                            />
-                        </Flex>
-                    )}
-                </Container>
-            </Grommet>
-        );
+  initialValueLoad = async () => {
+    try {
+      NProgress.start();
+      const result = await API.graphql(graphqlOperation(listValues));
+      const values = result.data.listValues.items;
+      this.setState({ values }, () => NProgress.done());
+    } catch (err) {
+      console.log("Error listing values:", err);
     }
+  };
+
+  handleValueFilter = () => {
+    this.setState({ valueIsFiltered: !this.state.valueIsFiltered });
+  };
+
+  handleChange = e => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+
+  handleValueModify = async value => {
+    this.setState({
+      valueId: value.id,
+      valueName: value.name,
+      valueDescription: value.description
+    });
+  };
+
+  handleValueDelete = async value => {
+    const { id } = value;
+    try {
+      const input = { id };
+      const result = await API.graphql(
+        graphqlOperation(deleteValue, { input })
+      );
+      const deletedValue = result.data.deleteValue;
+      const updateValues = this.state.values.filter(
+        value => value.id !== deletedValue.id
+      );
+      this.setState({ values: updateValues });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  onValueDragEnd = result => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const values = reorder(
+      this.state.values,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      values
+    });
+  };
+
+  handleValueSubmit = async e => {
+    e.preventDefault();
+    const { valueName, valueDescription, values, valueId } = this.state;
+    if (valueId !== "") {
+      const input = {
+        id: valueId,
+        name: valueName,
+        description: valueDescription
+      };
+      const result = await API.graphql(
+        graphqlOperation(updateValue, { input })
+      );
+      const updatedValue = result.data.updateValue;
+      const index = values.findIndex(value => value.id === this.state.valueId);
+      const updatedValues = [
+        ...this.state.values.slice(0, index),
+        updatedValue,
+        ...this.state.values.slice(index + 1)
+      ];
+      this.setState({
+        valueName: "",
+        valueDescription: "",
+        valueId: "",
+        values: updatedValues
+      });
+    } else {
+      const input = { name: valueName, description: valueDescription };
+      const result = await API.graphql(
+        graphqlOperation(createValue, { input })
+      );
+      const newValue = result.data.createValue;
+      const updatedValues = [newValue, ...values];
+
+      this.setState({
+        valueName: "",
+        valueDescription: "",
+        values: updatedValues
+      });
+    }
+  };
+
+  initialProjectLoad = async () => {
+    try {
+      const result = await API.graphql(graphqlOperation(listProjects));
+      const projects = result.data.listProjects.items;
+      this.setState({ projects });
+    } catch (err) {
+      console.log("Error listing projects:", err);
+    }
+  };
+
+  handleClearModalDesc = () => {
+    this.setState({ modalDesc: "" });
+  };
+
+  handleProjectFilter = () => {
+    this.setState({ projectIsFiltered: !this.state.projectIsFiltered });
+  };
+
+  handleProjectModify = async project => {
+    this.setState({
+      projectId: project.id,
+      projectName: project.name,
+      projectDescription: project.description
+    });
+  };
+
+  handleProjectDelete = async project => {
+    const { id } = project;
+    try {
+      const input = { id };
+      const result = await API.graphql(
+        graphqlOperation(deleteProject, { input })
+      );
+      const deletedProject = result.data.deleteProject;
+      const updateProjects = this.state.projects.filter(
+        value => value.id !== deletedProject.id
+      );
+      this.setState({ projects: updateProjects });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  onProjectDragEnd = result => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const projects = reorder(
+      this.state.projects,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      projects
+    });
+  };
+
+  handleProjectSubmit = async e => {
+    e.preventDefault();
+    const { projectName, projectDescription, projects, projectId } = this.state;
+    if (projectId !== "") {
+      const input = {
+        id: projectId,
+        name: projectName,
+        description: projectDescription
+      };
+      const result = await API.graphql(
+        graphqlOperation(updateProject, { input })
+      );
+      const updatedProject = result.data.updateProject;
+      const index = projects.findIndex(
+        project => project.id === this.state.projectId
+      );
+      const updatedProjects = [
+        ...this.state.projects.slice(0, index),
+        updatedProject,
+        ...this.state.projects.slice(index + 1)
+      ];
+      this.setState({
+        projectName: "",
+        projectDescription: "",
+        projectId: "",
+        projects: updatedProjects
+      });
+    } else {
+      const input = {
+        name: projectName,
+        description: projectDescription
+      };
+      const result = await API.graphql(
+        graphqlOperation(createProject, { input })
+      );
+      const newProject = result.data.createProject;
+      const updatedProjects = [newProject, ...projects];
+
+      this.setState({
+        projectName: "",
+        projectDescription: "",
+        projects: updatedProjects
+      });
+    }
+  };
+
+  render() {
+    const {
+      valueName,
+      valueDescription,
+      valueId,
+      valueIsFiltered,
+      values,
+      projectName,
+      projectDescription,
+      projectId,
+      projectIsFiltered,
+      projects
+    } = this.state;
+    return (
+      <Grommet theme={themeGrommet}>
+        <Container>
+          {this.state.valueIsFiltered && this.state.projectIsFiltered && (
+            <ModalView handleModalSubmit={this.handleModalSubmit} />
+          )}
+          {this.state.modalDesc ? (
+            <FinalPage
+              values={this.state.values}
+              projects={this.state.projects}
+              modalDesc={this.state.modalDesc}
+              handleClearModalDesc={this.handleClearModalDesc}
+            />
+          ) : (
+            <Flex justifyContent="space-around" pt={5}>
+              <ValueForm
+                name={valueName}
+                description={valueDescription}
+                id={valueId}
+                isFiltered={valueIsFiltered}
+                values={values}
+                initialLoad={this.initialValueLoad}
+                handleFilter={this.handleValueFilter}
+                handleChange={this.handleChange}
+                handleModify={this.handleValueModify}
+                handleDelete={this.handleValueDelete}
+                onDragEnd={this.onValueDragEnd}
+                handleSubmit={this.handleValueSubmit}
+              />
+              <ProjectForm
+                name={projectName}
+                description={projectDescription}
+                id={projectId}
+                isFiltered={projectIsFiltered}
+                projects={projects}
+                initialLoad={this.initialProjectLoad}
+                handleFilter={this.handleProjectFilter}
+                handleChange={this.handleChange}
+                handleModify={this.handleProjectModify}
+                handleDelete={this.handleProjectDelete}
+                onDragEnd={this.onProjectDragEnd}
+                handleSubmit={this.handleProjectSubmit}
+              />
+            </Flex>
+          )}
+        </Container>
+      </Grommet>
+    );
+  }
 }
 
 const theme = {
-    ...AmplifyTheme,
-    a: {
-        ...AmplifyTheme.a,
-        color: 'black',
-        fontWeight: 600,
-        textDecoration: 'underline'
-    },
-    formContainer: {
-        ...AmplifyTheme.formContainer,
-        marginTop: '15%'
-    },
-    sectionHeader: {
-        ...AmplifyTheme.sectionHeader,
-        backgroundColor: 'var(--squidInk)'
-    },
-    sectionBody: {
-        ...AmplifyTheme.sectionBody,
-        margin: '0'
-    },
-    formSection: {
-        ...AmplifyTheme.formSection,
-        borderRadius: '1%',
-        padding: '25px'
-    }
+  ...AmplifyTheme,
+  a: {
+    ...AmplifyTheme.a,
+    color: "black",
+    fontWeight: 600,
+    textDecoration: "underline"
+  },
+  formContainer: {
+    ...AmplifyTheme.formContainer,
+    marginTop: "15%"
+  },
+  sectionHeader: {
+    ...AmplifyTheme.sectionHeader,
+    backgroundColor: "var(--squidInk)"
+  },
+  sectionBody: {
+    ...AmplifyTheme.sectionBody,
+    margin: "0"
+  },
+  formSection: {
+    ...AmplifyTheme.formSection,
+    borderRadius: "1%",
+    padding: "25px"
+  }
 };
 
 export default withAuthenticator(App, true, [], null, theme);
