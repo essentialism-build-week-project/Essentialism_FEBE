@@ -6,6 +6,7 @@ import awsmobile from './aws-exports';
 import { Container } from './components/Global.Styles';
 import ProjectForm from './components/ProjectForm/ProjectForm';
 import ValueForm from './components/ValueForm/ValueForm';
+import Billing from './components/Billing/Billing';
 
 Amplify.configure(awsmobile);
 
@@ -17,6 +18,8 @@ class App extends React.Component {
                     <ValueForm />
                     <ProjectForm />
                 </Flex>
+                <Billing />
+                {/*  */}
             </Container>
         );
     }
