@@ -35,7 +35,6 @@ export default class ModalView extends Component {
     const { open } = this.state;
     return (
       <Box>
-        {/* {open ? ( */}
         <Modal open={open} onClose={this.onCloseModal} center>
           <Heading>Zen-like Essentialism has been acheived!</Heading>
           <Paragraph>
@@ -50,12 +49,8 @@ export default class ModalView extends Component {
               placeholder="Enter description"
             />
             <Button label="Submit" type="submit" color="#00739D" />
-            {/* <button type="submit">Submit</button> */}
           </form>
         </Modal>
-        {/* // ) : null} */}
-        {/* // <button onClick={this.onOpenModal}>Trigger Modal</button>
-                // {this.state.submittedDesc && <h1>{this.state.submittedDesc}</h1>} */}
       </Box>
     );
   }
