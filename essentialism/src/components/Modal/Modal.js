@@ -1,3 +1,4 @@
+import { Box, Button, Heading, Paragraph, TextArea } from "grommet";
 import React, { Component } from "react";
 import Modal from "react-responsive-modal";
 
@@ -33,29 +34,29 @@ export default class ModalView extends Component {
   render() {
     const { open } = this.state;
     return (
-      <div>
+      <Box>
         {/* {open ? ( */}
         <Modal open={open} onClose={this.onCloseModal} center>
-          <h2>Zen-like Essentialism has been acheived!</h2>
-          <p>
+          <Heading>Zen-like Essentialism has been acheived!</Heading>
+          <Paragraph>
             Breifly describe in a few sentences why you selected the top three
             values and projects that you did.
-          </p>
+          </Paragraph>
           <form onSubmit={this.handleSubmit}>
-            <textarea
-              type="text"
-              name="desc"
+            <TextArea
               value={this.state.desc}
               onChange={this.handleChange}
+              name="desc"
               placeholder="Enter description"
             />
-            <button type="submit">Submit</button>
+            <Button label="Submit" type="submit" color="#00739D" />
+            {/* <button type="submit">Submit</button> */}
           </form>
         </Modal>
         {/* // ) : null} */}
         {/* // <button onClick={this.onOpenModal}>Trigger Modal</button>
                 // {this.state.submittedDesc && <h1>{this.state.submittedDesc}</h1>} */}
-      </div>
+      </Box>
     );
   }
 }

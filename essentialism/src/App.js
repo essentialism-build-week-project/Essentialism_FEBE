@@ -66,7 +66,8 @@ class App extends React.Component {
     projectIsFiltered: false,
     values: [],
     projects: [],
-    modalDesc: ""
+    modalDesc: "",
+    showModal: false
   };
 
   handleModalSubmit = modalDesc => {
@@ -299,7 +300,9 @@ class App extends React.Component {
       <Grommet theme={themeGrommet}>
         <Container>
           {this.state.valueIsFiltered && this.state.projectIsFiltered && (
-            <ModalView handleModalSubmit={this.handleModalSubmit} />
+            <>
+              <ModalView handleModalSubmit={this.handleModalSubmit} />
+            </>
           )}
           {this.state.modalDesc ? (
             <FinalPage
