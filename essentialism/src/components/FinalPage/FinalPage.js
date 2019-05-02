@@ -1,13 +1,13 @@
-import { Box as GromBox, Heading as GromHeading, Paragraph } from "grommet";
+import { Box, Button, Heading, Paragraph } from "grommet";
 import React from "react";
 // import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from "react-confetti";
 import { Flex } from "rebass";
-import { Button } from "../Global.Styles";
+// import { Button } from "../Global.Styles";
 
 export default function FinalPage(props) {
   return (
-    <>
+    <Box size="large">
       <Flex justifyContent="center">
         <h2>Achieve more by doing less</h2>
       </Flex>
@@ -19,35 +19,17 @@ export default function FinalPage(props) {
           {props.values.map((value, index) =>
             index < 3 ? (
               <div key={value.id}>
-                <GromBox
+                <Box
                   direction="column"
                   border={{ color: "#00739D", size: "small" }}
                   pad="small"
                   margin="small"
-                  responsive="true"
                 >
-                  <GromHeading margin="xsmall" level="3">
+                  <Heading margin="xsmall" level="3">
                     {value.name}
-                  </GromHeading>
+                  </Heading>
                   <Paragraph margin="small">{value.description}</Paragraph>
-                </GromBox>
-                {/* <Box width={256}>
-                  <Card
-                    p={1}
-                    mb={3}
-                    borderRadius={2}
-                    boxShadow="0 0 5px rgba(0, 0, 0, .25)"
-                  >
-                    <Box px={2}>
-                      <Heading as="h3" pb={3}>
-                        {value.name}
-                      </Heading>
-                      <Text fontSize={0} pb={3}>
-                        {value.description}
-                      </Text>
-                    </Box>
-                  </Card>
-                </Box> */}
+                </Box>
               </div>
             ) : null
           )}
@@ -57,35 +39,17 @@ export default function FinalPage(props) {
           {props.projects.map((project, index) =>
             index < 3 ? (
               <div key={project.id}>
-                <GromBox
+                <Box
                   direction="column"
                   border={{ color: "#00739D", size: "small" }}
                   pad="small"
                   margin="small"
-                  responsive="true"
                 >
-                  <GromHeading margin="xsmall" level="3">
+                  <Heading margin="xsmall" level="3">
                     {project.name}
-                  </GromHeading>
+                  </Heading>
                   <Paragraph margin="small">{project.description}</Paragraph>
-                </GromBox>
-                {/* <Box width={256}>
-                  <Card
-                    p={1}
-                    mb={3}
-                    borderRadius={2}
-                    boxShadow="0 0 5px rgba(0, 0, 0, .25)"
-                  >
-                    <Box px={2}>
-                      <Heading as="h3" pb={3}>
-                        {project.name}
-                      </Heading>
-                      <Text fontSize={0} pb={3}>
-                        {project.description}
-                      </Text>
-                    </Box>
-                  </Card>
-                </Box> */}
+                </Box>
               </div>
             ) : null
           )}
@@ -93,7 +57,11 @@ export default function FinalPage(props) {
       </Flex>
       <Flex alignItems="center" flexDirection="column">
         <h2>{props.modalDesc}</h2>
-        <Button onClick={props.handleClearModalDesc}>Back</Button>
+        <Button
+          label="Back"
+          color="#00739D"
+          onClick={props.handleClearModalDesc}
+        />
       </Flex>
       <Confetti
         style={{ pointerEvents: "none" }}
@@ -101,6 +69,6 @@ export default function FinalPage(props) {
         gravity={0.25}
         recycle={false}
       />
-    </>
+    </Box>
   );
 }

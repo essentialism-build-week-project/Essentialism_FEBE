@@ -1,6 +1,7 @@
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { AmplifyTheme, withAuthenticator } from "aws-amplify-react";
-import { Grommet } from "grommet";
+import { Button, Grommet, Grid, Box } from "grommet";
+import { ResponsiveContext } from "grommet/contexts";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import React from "react";
@@ -8,6 +9,7 @@ import { Flex } from "rebass";
 import awsmobile from "./aws-exports";
 import FinalPage from "./components/FinalPage/FinalPage";
 import { Container } from "./components/Global.Styles";
+import { theme as GromTheme } from "./components/GrommetTheme";
 import ModalView from "./components/Modal/Modal";
 import ProjectForm from "./components/ProjectForm/ProjectForm";
 import ValueForm from "./components/ValueForm/ValueForm";
@@ -32,27 +34,22 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const themeGrommet = {
-  global: {
-    font: {
-      family: "Roboto",
-      size: "1rem",
-      height: "1rem"
-    },
-    colors: {
-      border: "#00739D",
-      placeholder: "#B0E0E6"
-    },
-    focus: {
-      color: "#00739D"
-    }
-  },
-  textInput: {
-    placeholder: {
-      extend: "color:#191970"
-    }
-  }
-};
+// const customBreakpoints = deepMerge(grommet, {
+//   global: {
+//     breakpoints: {
+//       xsmall: {
+//         value: 500
+//       },
+//       small: {
+//         value: 900
+//       },
+//       medium: undefined,
+//       middle: {
+//         value: 3000
+//       }
+//     }
+//   }
+// });
 
 class App extends React.Component {
   state = {
@@ -188,11 +185,18 @@ class App extends React.Component {
   };
 
   handleClearModalDesc = () => {
-    this.setState({ modalDesc: "" });
+    this.setState({
+      modalDesc: "",
+      valueIsFiltered: false,
+      projectIsFiltered: false
+    });
   };
 
-  handleProjectFilter = () => {
-    this.setState({ projectIsFiltered: !this.state.projectIsFiltered });
+  handleFilter = () => {
+    this.setState({
+      projectIsFiltered: !this.state.projectIsFiltered,
+      valueIsFiltered: !this.state.valueIsFiltered
+    });
   };
 
   handleProjectModify = async project => {
@@ -297,53 +301,83 @@ class App extends React.Component {
       projects
     } = this.state;
     return (
-      <Grommet theme={themeGrommet}>
-        <Container>
-          {this.state.valueIsFiltered && this.state.projectIsFiltered && (
-            <>
-              <ModalView handleModalSubmit={this.handleModalSubmit} />
-            </>
+      <Grommet theme={GromTheme}>
+        <ResponsiveContext.Consumer>
+          {size => (
+            <Box>
+              {this.state.valueIsFiltered && this.state.projectIsFiltered && (
+                <>
+                  <ModalView handleModalSubmit={this.handleModalSubmit} />
+                </>
+              )}
+              {this.state.modalDesc ? (
+                <FinalPage
+                  values={this.state.values}
+                  projects={this.state.projects}
+                  modalDesc={this.state.modalDesc}
+                  handleClearModalDesc={this.handleClearModalDesc}
+                />
+              ) : (
+                <Box responsive={true}>
+               
+                    <Button
+                      label="test"
+                      color={
+                        this.state.values.length > 2 &&
+                        this.state.projects.length > 2
+                          ? "#00739D"
+                          : "lightgrey"
+                      }
+                      margin="small"
+                  
+                      onClick={
+                        this.state.values.length > 2 &&
+                        this.state.projects.length > 2
+                          ? this.handleFilter
+                          : () => alert("Each list must have atleast 3 items!")
+                      }
+                    />
+                    
+               
+
+      
+                    <Box justify='around' direction='row' responsive={true}>
+                    
+                      <ValueForm
+                        name={valueName}
+                        description={valueDescription}
+                        id={valueId}
+                        isFiltered={valueIsFiltered}
+                        values={values}
+                        initialLoad={this.initialValueLoad}
+                        handleFilter={this.handleValueFilter}
+                        handleChange={this.handleChange}
+                        handleModify={this.handleValueModify}
+                        handleDelete={this.handleValueDelete}
+                        onDragEnd={this.onValueDragEnd}
+                        handleSubmit={this.handleValueSubmit}
+                      />
+                      <ProjectForm
+                        name={projectName}
+                        description={projectDescription}
+                        id={projectId}
+                        isFiltered={projectIsFiltered}
+                        projects={projects}
+                        initialLoad={this.initialProjectLoad}
+                        handleFilter={this.handleProjectFilter}
+                        handleChange={this.handleChange}
+                        handleModify={this.handleProjectModify}
+                        handleDelete={this.handleProjectDelete}
+                        onDragEnd={this.onProjectDragEnd}
+                        handleSubmit={this.handleProjectSubmit}
+                      />
+                    </Box>
+               </Box>
+               
+              )}
+            </Box>
           )}
-          {this.state.modalDesc ? (
-            <FinalPage
-              values={this.state.values}
-              projects={this.state.projects}
-              modalDesc={this.state.modalDesc}
-              handleClearModalDesc={this.handleClearModalDesc}
-            />
-          ) : (
-            <Flex justifyContent="space-around" pt={5}>
-              <ValueForm
-                name={valueName}
-                description={valueDescription}
-                id={valueId}
-                isFiltered={valueIsFiltered}
-                values={values}
-                initialLoad={this.initialValueLoad}
-                handleFilter={this.handleValueFilter}
-                handleChange={this.handleChange}
-                handleModify={this.handleValueModify}
-                handleDelete={this.handleValueDelete}
-                onDragEnd={this.onValueDragEnd}
-                handleSubmit={this.handleValueSubmit}
-              />
-              <ProjectForm
-                name={projectName}
-                description={projectDescription}
-                id={projectId}
-                isFiltered={projectIsFiltered}
-                projects={projects}
-                initialLoad={this.initialProjectLoad}
-                handleFilter={this.handleProjectFilter}
-                handleChange={this.handleChange}
-                handleModify={this.handleProjectModify}
-                handleDelete={this.handleProjectDelete}
-                onDragEnd={this.onProjectDragEnd}
-                handleSubmit={this.handleProjectSubmit}
-              />
-            </Flex>
-          )}
-        </Container>
+        </ResponsiveContext.Consumer>
       </Grommet>
     );
   }

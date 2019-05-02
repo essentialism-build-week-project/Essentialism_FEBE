@@ -1,13 +1,8 @@
-import {
-  Box as GromBox,
-  Button as GromButton,
-  Heading as GromHeading,
-  Paragraph
-} from "grommet";
+import { Box, Button, Heading, Paragraph } from "grommet";
 import { Edit, Trash } from "grommet-icons";
 import React from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { Button } from "../Global.Styles";
+// import { Button } from "../Global.Styles";
 
 export default function ProjectList(props) {
   const projects = props.isFiltered
@@ -33,66 +28,37 @@ export default function ProjectList(props) {
                       {...provided.dragHandleProps}
                     >
                       <div>
-                        <GromBox
+                        <Box
+                        size="1/2"
                           direction="column"
                           border={{ color: "#00739D", size: "small" }}
                           pad="small"
                           margin="small"
-                          responsive="true"
+                   
                         >
-                          <GromHeading margin="xsmall" level="3">
+                          <Heading margin="xsmall" level="3">
                             {project.name}
-                          </GromHeading>
+                          </Heading>
                           <Paragraph margin="small">
                             {project.description}
                           </Paragraph>
-                          <GromBox direction="row">
-                            <GromButton
-                              label="test"
+                          <Box direction="row">
+                            <Button
+                              label="Edit"
                               icon={<Edit />}
                               onClick={() => props.handleModify(project)}
                               color="#00739D"
+                              margin="small"
                             />
-                            <GromButton
-                              label="test 1"
+                            <Button
+                              label="Delete"
                               icon={<Trash />}
                               onClick={() => props.handleDelete(project)}
                               color="#00739D"
+                              margin="small"
                             />
-                          </GromBox>
-                        </GromBox>
-                        {/* <Box width={256}>
-                          <Card
-                            p={1}
-                            mb={3}
-                            borderRadius={2}
-                            boxShadow="0 0 5px rgba(0, 0, 0, .25)"
-                          >
-                            <Box px={2}>
-                              <Heading as="h3" pb={3}>
-                                {project.name}
-                              </Heading>
-                              <Text fontSize={0} pb={3}>
-                                {project.description}
-                              </Text>
-                              <Flex>
-                                <Box mr={3}>
-                                  <FontAwesomeIcon
-                                    icon={faTrashAlt}
-                                    onClick={() => props.handleDelete(project)}
-                                    mr={2}
-                                  />
-                                </Box>
-                                <Box>
-                                  <FontAwesomeIcon
-                                    icon={faEdit}
-                                    onClick={() => props.handleModify(project)}
-                                  />
-                                </Box>
-                              </Flex>
-                            </Box>
-                          </Card>
-                        </Box> */}
+                          </Box>
+                        </Box>
                       </div>
                     </div>
                   )}
@@ -103,11 +69,11 @@ export default function ProjectList(props) {
           )}
         </Droppable>
       </DragDropContext>
-      {props.projects.length > 3 && !props.isFiltered ? (
+      {/* {props.projects.length > 3 && !props.isFiltered ? (
         <Button onClick={props.handleFilter}>Essentialize</Button>
       ) : props.projects.length > 3 && props.isFiltered ? (
         <Button onClick={props.handleFilter}>Un-Essentialize</Button>
-      ) : null}{" "}
+      ) : null}{" "} */}
     </div>
   );
 }

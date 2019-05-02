@@ -1,6 +1,6 @@
-import { Button as GromButton, Heading, TextInput } from "grommet";
+import { Button, Heading, TextInput, Box } from "grommet";
 import React, { Component } from "react";
-import { Box } from "rebass";
+// import { Box } from "rebass";
 import ValueList from "../ValueList/ValueList";
 
 export default class ValueForm extends Component {
@@ -11,7 +11,7 @@ export default class ValueForm extends Component {
   render() {
     return (
       <div>
-        <Box mb={3}>
+        <Box size="large">
           <form onSubmit={this.props.handleSubmit}>
             <label>
               <Heading margin="xsmall" level="5">
@@ -38,7 +38,7 @@ export default class ValueForm extends Component {
               />
             </label>
             <Box>
-              <GromButton
+              <Button
                 label={this.props.id === "" ? "Add Value" : "Modify Value"}
                 color="#00739D"
                 type="submit"

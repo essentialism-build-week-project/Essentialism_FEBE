@@ -1,6 +1,6 @@
-import { Button as GromButton, Heading, TextInput } from "grommet";
+import { Box, Button, Heading, TextInput } from "grommet";
 import React, { Component } from "react";
-import { Box } from "rebass";
+// import { Box } from "rebass";
 import ProjectList from "../ProjectList/ProjectList";
 
 export default class ProjectForm extends Component {
@@ -11,7 +11,7 @@ export default class ProjectForm extends Component {
   render() {
     return (
       <div>
-        <Box mb={3}>
+        <Box>
           <form onSubmit={this.props.handleSubmit}>
             <label>
               <Heading margin="xsmall" level="5">
@@ -39,7 +39,7 @@ export default class ProjectForm extends Component {
             </label>
 
             <Box>
-              <GromButton
+              <Button
                 label={this.props.id === "" ? "Add Project" : "Modify Project"}
                 color="#00739D"
                 type="submit"
