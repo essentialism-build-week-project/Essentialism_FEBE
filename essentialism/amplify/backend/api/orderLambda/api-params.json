@@ -1,0 +1,37 @@
+{
+    "paths": [
+        {
+            "name": "/charge",
+            "lambdaFunction": "orderLambda",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST"
+                ]
+            }
+        }
+    ],
+    "resourceName": "orderLambda",
+    "apiName": "orderLambda",
+    "functionArns": [
+        {
+            "lambdaFunction": "orderLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "essentialism-20190424110601-authRole",
+        "unAuthRoleName": "essentialism-20190424110601-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "orderLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

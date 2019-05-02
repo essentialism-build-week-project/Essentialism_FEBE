@@ -3,6 +3,7 @@ import React from 'react';
 import Confetti from 'react-confetti';
 import { Box, Card, Flex, Heading, Text } from 'rebass';
 import { Button } from '../Global.Styles';
+import StripeButton from '../StripeButton/StripeButton'
 
 export default function FinalPage(props) {
     return (
@@ -69,6 +70,7 @@ export default function FinalPage(props) {
             <Flex alignItems="center" flexDirection="column">
                 <h2>{props.modalDesc}</h2>
                 <Button onClick={props.handleClearModalDesc}>Back</Button>
+                <StripeButton />
             </Flex>
             <Confetti
                 style={{ pointerEvents: 'none' }}
