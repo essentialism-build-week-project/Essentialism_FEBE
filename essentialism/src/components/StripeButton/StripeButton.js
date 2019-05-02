@@ -9,7 +9,7 @@ const stripeConfig = {
 
 const handleCharge = async (token) => {
     try {
-        const result = await API.post('orderLambda', '/charge', {
+        const result = await API.post('orderlambda', '/charge', {
             body: {
                 token,
                 charge: {
