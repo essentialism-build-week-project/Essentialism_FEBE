@@ -14,7 +14,7 @@ const handleCharge = async (token) => {
                 token,
                 charge: {
                     currency: stripeConfig.currency,
-                    amount: 500,
+                    amount: 100,
                     description: 'Support Development of Essentialize'
                 }
             }
