@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Button = styled(baseButton)`
   cursor: pointer;
   color: black;
-    background-color: white;
+  background-color: white;
   border: 1px solid black;
   &:hover {
     color: white;
@@ -20,4 +20,13 @@ export const Container = styled.div`
   max-width: 900px;
   width: 98%;
   margin: 0 auto;
-`
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  @media (max-width: 720px) {
+    flex-direction: column;
+  }
+`;

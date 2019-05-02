@@ -1,14 +1,13 @@
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { AmplifyTheme, withAuthenticator } from "aws-amplify-react";
-import { Button, Grommet, Grid, Box } from "grommet";
+import { Box, Button, Grommet } from "grommet";
 import { ResponsiveContext } from "grommet/contexts";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import React from "react";
-import { Flex } from "rebass";
 import awsmobile from "./aws-exports";
 import FinalPage from "./components/FinalPage/FinalPage";
-import { Container } from "./components/Global.Styles";
+import { Wrapper } from "./components/Global.Styles";
 import { theme as GromTheme } from "./components/GrommetTheme";
 import ModalView from "./components/Modal/Modal";
 import ProjectForm from "./components/ProjectForm/ProjectForm";
@@ -319,61 +318,54 @@ class App extends React.Component {
                 />
               ) : (
                 <Box responsive={true}>
-               
-                    <Button
-                      label="test"
-                      color={
-                        this.state.values.length > 2 &&
-                        this.state.projects.length > 2
-                          ? "#00739D"
-                          : "lightgrey"
-                      }
-                      margin="small"
-                  
-                      onClick={
-                        this.state.values.length > 2 &&
-                        this.state.projects.length > 2
-                          ? this.handleFilter
-                          : () => alert("Each list must have atleast 3 items!")
-                      }
-                    />
-                    
-               
+                  <Button
+                    label="test"
+                    color={
+                      this.state.values.length > 2 &&
+                      this.state.projects.length > 2
+                        ? "#00739D"
+                        : "lightgrey"
+                    }
+                    margin="small"
+                    onClick={
+                      this.state.values.length > 2 &&
+                      this.state.projects.length > 2
+                        ? this.handleFilter
+                        : () => alert("Each list must have atleast 3 items!")
+                    }
+                  />
 
-      
-                    <Box justify='around' direction='row' responsive={true}>
-                    
-                      <ValueForm
-                        name={valueName}
-                        description={valueDescription}
-                        id={valueId}
-                        isFiltered={valueIsFiltered}
-                        values={values}
-                        initialLoad={this.initialValueLoad}
-                        handleFilter={this.handleValueFilter}
-                        handleChange={this.handleChange}
-                        handleModify={this.handleValueModify}
-                        handleDelete={this.handleValueDelete}
-                        onDragEnd={this.onValueDragEnd}
-                        handleSubmit={this.handleValueSubmit}
-                      />
-                      <ProjectForm
-                        name={projectName}
-                        description={projectDescription}
-                        id={projectId}
-                        isFiltered={projectIsFiltered}
-                        projects={projects}
-                        initialLoad={this.initialProjectLoad}
-                        handleFilter={this.handleProjectFilter}
-                        handleChange={this.handleChange}
-                        handleModify={this.handleProjectModify}
-                        handleDelete={this.handleProjectDelete}
-                        onDragEnd={this.onProjectDragEnd}
-                        handleSubmit={this.handleProjectSubmit}
-                      />
-                    </Box>
-               </Box>
-               
+                  <Wrapper justify="around" direction="row" responsive={true}>
+                    <ValueForm
+                      name={valueName}
+                      description={valueDescription}
+                      id={valueId}
+                      isFiltered={valueIsFiltered}
+                      values={values}
+                      initialLoad={this.initialValueLoad}
+                      handleFilter={this.handleValueFilter}
+                      handleChange={this.handleChange}
+                      handleModify={this.handleValueModify}
+                      handleDelete={this.handleValueDelete}
+                      onDragEnd={this.onValueDragEnd}
+                      handleSubmit={this.handleValueSubmit}
+                    />
+                    <ProjectForm
+                      name={projectName}
+                      description={projectDescription}
+                      id={projectId}
+                      isFiltered={projectIsFiltered}
+                      projects={projects}
+                      initialLoad={this.initialProjectLoad}
+                      handleFilter={this.handleProjectFilter}
+                      handleChange={this.handleChange}
+                      handleModify={this.handleProjectModify}
+                      handleDelete={this.handleProjectDelete}
+                      onDragEnd={this.onProjectDragEnd}
+                      handleSubmit={this.handleProjectSubmit}
+                    />
+                  </Wrapper>
+                </Box>
               )}
             </Box>
           )}
