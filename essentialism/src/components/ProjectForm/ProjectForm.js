@@ -1,4 +1,4 @@
-import { Box, Button, Form, FormField } from "grommet";
+import { Box, Button, Form, FormField, Stack, Text } from "grommet";
 import { AddCircle, Edit } from 'grommet-icons';
 import React, { Component } from "react";
 import ProjectList from "../ProjectList/ProjectList";
@@ -33,12 +33,18 @@ export default class ProjectForm extends Component {
             </label>
 
             <Box>
+              <Stack anchor='top'>
               <Button
                 label={this.props.id === "" ? "Project" : "Modify Project"}
                 icon={this.props.id === '' ? <AddCircle color='brand' /> : <Edit color='brand' />}
                 type="submit"
                 margin="small"
               />
+                <Box round background='accent-1' pad={{ horizontal: 'xsmall' }}>
+
+              <Text>6</Text>
+              </Box>
+              </Stack>
             </Box>
           </Form>
         </Box>

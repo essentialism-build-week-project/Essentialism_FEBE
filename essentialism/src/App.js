@@ -382,6 +382,7 @@ class App extends React.Component {
                                                     label="Essentialize"
                                                     color='magenta'
                                                     margin="small"
+                                                    pad={{ horizontal: 'xsmall'}}
                                                     onClick={
                                                         this.state.values.length >
                                                             2 &&
@@ -394,7 +395,12 @@ class App extends React.Component {
                                                                 )
                                                     }
                                                 />
-                                            </Box> : <Box margin='medium' />}
+                                            </Box> : <Box margin='medium'>
+                                                    <Button
+                                                        label="Essentialize"
+                                                        margin='small'
+                                                        disabled={true}
+                                                    />                                            </Box>}
                                     </WrapperRow>
 
                                     <WrapperRow
