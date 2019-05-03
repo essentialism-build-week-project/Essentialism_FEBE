@@ -377,7 +377,7 @@ class App extends React.Component {
                                     <Box responsive={true} background='#F8F8F8'
 >
                                     <WrapperRow>
-                                            {this.state.values.length > 2 && this.state.projects.length > 2 ? <Box margin={ {top: 'medium'}} animation='pulse'>
+                                            {this.state.values.length > 2 && this.state.projects.length > 2 ? <Box margin={{top: 'medium'}} animation='pulse'>
                                                 <Button
                                                     label="Essentialize"
                                                     color='magenta'
@@ -395,7 +395,7 @@ class App extends React.Component {
                                                                 )
                                                     }
                                                 />
-                                            </Box> : <Box margin='medium'>
+                                            </Box> : <Box margin={{ top: 'medium' }}>
                                                     <Button
                                                         label="Essentialize"
                                                         margin='small'

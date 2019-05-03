@@ -12,6 +12,7 @@ export default function ProjectList(props) {
     return (
         <div>
             <DragDropContext onDragEnd={props.onDragEnd}>
+            <Box margin={{ bottom: 'xlarge'}}>
                 <Droppable droppableId="droppable">
                     {(provided, snapshot) => (
                         <div
@@ -89,12 +90,8 @@ export default function ProjectList(props) {
                         </div>
                     )}
                 </Droppable>
+                </Box>
             </DragDropContext>
-            {/* {props.projects.length > 3 && !props.isFiltered ? (
-        <Button onClick={props.handleFilter}>Essentialize</Button>
-      ) : props.projects.length > 3 && props.isFiltered ? (
-        <Button onClick={props.handleFilter}>Un-Essentialize</Button>
-      ) : null}{" "} */}
         </div>
     );
 }

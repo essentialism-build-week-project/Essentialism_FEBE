@@ -1,7 +1,6 @@
 import { Box, Button, Form, FormField, Stack, Text } from 'grommet';
 import { AddCircle, Edit } from 'grommet-icons';
 import React, { Component } from 'react';
-// import { Box } from "rebass";
 import ValueList from '../ValueList/ValueList';
 
 export default class ValueForm extends Component {
@@ -32,18 +31,41 @@ export default class ValueForm extends Component {
                             />
                         </label>
                         <Box>
-                  <Stack anchor='top'>
-                    <Button
-                      label={this.props.id === "" ? "Project" : "Modify Project"}
-                      icon={this.props.id === '' ? <AddCircle color='brand' /> : <Edit color='brand' />}
-                      type="submit"
-                      margin="small"
-                    />
-                    <Box round background='accent-1' pad={{ horizontal: 'xsmall' }}>
-
-                      <Text>6</Text>
-                    </Box>
-                  </Stack>
+                            <Stack anchor="top">
+                                <Button
+                                    label={
+                                        this.props.id === ''
+                                            ? 'Value'
+                                            : 'Modify Project'
+                                    }
+                                    icon={
+                                        this.props.id === '' ? (
+                                            <AddCircle color="brand" />
+                                        ) : (
+                                            <Edit color="brand" />
+                                        )
+                                    }
+                                    type="submit"
+                                    margin="small"
+                                />
+                                {this.props.values.length < 3 ? (
+                                    <Box
+                                        round
+                                        background="status-disabled"
+                                        pad={{ horizontal: 'xsmall' }}
+                                    >
+                                        <Text>{this.props.values.length}</Text>
+                                    </Box>
+                                ) : (
+                                    <Box
+                                        round
+                                        background="accent-1"
+                                        pad={{ horizontal: 'xsmall' }}
+                                    >
+                                        <Text>{this.props.values.length}</Text>
+                                    </Box>
+                                )}
+                            </Stack>
                         </Box>
                     </Form>
                 </Box>

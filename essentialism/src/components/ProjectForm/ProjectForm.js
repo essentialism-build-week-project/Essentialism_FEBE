@@ -40,10 +40,23 @@ export default class ProjectForm extends Component {
                 type="submit"
                 margin="small"
               />
-                <Box round background='accent-1' pad={{ horizontal: 'xsmall' }}>
-
-              <Text>6</Text>
-              </Box>
+                {this.props.projects.length < 3 ? (
+                  <Box
+                    round
+                    background="status-disabled"
+                    pad={{ horizontal: 'xsmall' }}
+                  >
+                    <Text>{this.props.projects.length}</Text>
+                  </Box>
+                ) : (
+                    <Box
+                      round
+                      background="accent-1"
+                      pad={{ horizontal: 'xsmall' }}
+                    >
+                      <Text>{this.props.projects.length}</Text>
+                    </Box>
+                  )}
               </Stack>
             </Box>
           </Form>
