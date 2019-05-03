@@ -15,6 +15,7 @@ export const WrapperRow = styled.div`
   justify-content: space-around;
   @media (max-width: 720px) {
     flex-direction: column;
+    align-items: center;
   }
 `;
 
