@@ -7,21 +7,14 @@ import 'nprogress/nprogress.css';
 import React from 'react';
 import awsmobile from './aws-exports';
 import FinalPage from './components/FinalPage/FinalPage';
+import Footer from './components/Footer/Footer';
 import { WrapperRow } from './components/Global.Styles';
 import { theme as GromTheme } from './components/GrommetTheme';
 import ModalView from './components/Modal/Modal';
 import ProjectForm from './components/ProjectForm/ProjectForm';
 import ValueForm from './components/ValueForm/ValueForm';
-import {
-    createProject,
-    createValue,
-    deleteProject,
-    deleteValue,
-    updateProject,
-    updateValue
-} from './graphql/mutations';
+import { createProject, createValue, deleteProject, deleteValue, updateProject, updateValue } from './graphql/mutations';
 import { listProjects, listValues } from './graphql/queries';
-import Footer from './components/Footer/Footer';
 
 Amplify.configure(awsmobile);
 
@@ -76,7 +69,8 @@ class App extends React.Component {
         values: [],
         projects: [],
         modalDesc: '',
-        showModal: false
+        showModal: false,
+        isModify: false
     };
 
     componentDidMount = () => {
@@ -131,7 +125,8 @@ class App extends React.Component {
         this.setState({
             valueId: value.id,
             valueName: value.name,
-            valueDescription: value.description
+            valueDescription: value.description,
+            isModify: !this.state.isModify
         });
     };
 
@@ -172,13 +167,13 @@ class App extends React.Component {
 
     handleValueSubmit = async e => {
         e.preventDefault();
-        const { valueName, valueDescription, values, valueId } = this.state;
+        const { valueName, valueDescription, values, valueId, isModify } = this.state;
         if (valueId !== '') {
             NProgress.start();
             const input = {
                 id: valueId,
                 name: valueName,
-                description: valueDescription
+                description: valueDescription,
             };
             const result = await API.graphql(
                 graphqlOperation(updateValue, { input })
@@ -197,7 +192,8 @@ class App extends React.Component {
                     valueName: '',
                     valueDescription: '',
                     valueId: '',
-                    values: updatedValues
+                    values: updatedValues,
+                    isModify: !isModify
                 },
                 () => NProgress.done()
             );
@@ -235,7 +231,8 @@ class App extends React.Component {
                 {
                     projectId: project.id,
                     projectName: project.name,
-                    projectDescription: project.description
+                    projectDescription: project.description,
+                    isModify: true
                 },
                 () => NProgress.done()
             );
@@ -310,7 +307,8 @@ class App extends React.Component {
                     projectName: '',
                     projectDescription: '',
                     projectId: '',
-                    projects: updatedProjects
+                    projects: updatedProjects,
+                    isModify: false
                 },
                 () => NProgress.done()
             );
@@ -330,7 +328,7 @@ class App extends React.Component {
                 {
                     projectName: '',
                     projectDescription: '',
-                    projects: updatedProjects
+                    projects: updatedProjects,
                 },
                 () => NProgress.done()
             );
@@ -348,7 +346,8 @@ class App extends React.Component {
             projectDescription,
             projectId,
             projectIsFiltered,
-            projects
+            projects,
+            isModify
         } = this.state;
         return (
             <Grommet theme={GromTheme}>
@@ -416,6 +415,7 @@ class App extends React.Component {
                                             id={valueId}
                                             isFiltered={valueIsFiltered}
                                             values={values}
+                                            isModify={isModify}
                                             initialLoad={this.initialValueLoad}
                                             handleFilter={
                                                 this.handleValueFilter
@@ -438,6 +438,7 @@ class App extends React.Component {
                                             id={projectId}
                                             isFiltered={projectIsFiltered}
                                             projects={projects}
+                                            isModify={isModify}
                                             initialLoad={
                                                 this.initialProjectLoad
                                             }

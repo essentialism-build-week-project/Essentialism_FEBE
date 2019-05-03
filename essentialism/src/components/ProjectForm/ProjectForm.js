@@ -40,7 +40,7 @@ export default class ProjectForm extends Component {
                 type="submit"
                 margin="small"
               />
-                {this.props.projects.length < 3 ? (
+                {this.props.projects.length < 3 && !this.props.isModify ? (
                   <Box
                     round
                     background="status-disabled"
@@ -48,15 +48,15 @@ export default class ProjectForm extends Component {
                   >
                     <Text>{this.props.projects.length}</Text>
                   </Box>
-                ) : (
-                    <Box
-                      round
-                      background="accent-1"
-                      pad={{ horizontal: 'xsmall' }}
-                    >
-                      <Text>{this.props.projects.length}</Text>
-                    </Box>
-                  )}
+                ) : this.props.projects.length >= 3 && !this.props.isModify ? (
+                  <Box
+                    round
+                    background="accent-1"
+                    pad={{ horizontal: 'xsmall' }}
+                  >
+                    <Text>{this.props.projects.length}</Text>
+                  </Box>
+                ) : null}
               </Stack>
             </Box>
           </Form>

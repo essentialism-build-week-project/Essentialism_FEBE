@@ -48,7 +48,8 @@ export default class ValueForm extends Component {
                                     type="submit"
                                     margin="small"
                                 />
-                                {this.props.values.length < 3 ? (
+                                {this.props.values.length < 3 &&
+                                !this.props.isModify ? (
                                     <Box
                                         round
                                         background="status-disabled"
@@ -56,7 +57,8 @@ export default class ValueForm extends Component {
                                     >
                                         <Text>{this.props.values.length}</Text>
                                     </Box>
-                                ) : (
+                                ) : this.props.values.length >= 3 &&
+                                  !this.props.isModify ? (
                                     <Box
                                         round
                                         background="accent-1"
@@ -64,7 +66,7 @@ export default class ValueForm extends Component {
                                     >
                                         <Text>{this.props.values.length}</Text>
                                     </Box>
-                                )}
+                                ) : null}
                             </Stack>
                         </Box>
                     </Form>
