@@ -1,4 +1,5 @@
 import { API } from 'aws-amplify';
+import { Text } from 'grommet';
 import React from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 
@@ -28,10 +29,9 @@ const handleCharge = async token => {
 export default function StripeButton() {
     return (
         <>
-            <h3>
-                If you are happy with your results, consider supporting our work
-                by sending us $1.00. Just click the link below.
-            </h3>
+            <Text weight="bold" size="large" margin={{ bottom: 'large' }}>
+                Support our work.
+            </Text>
             <StripeCheckout
                 token={handleCharge}
                 currency={stripeConfig.currency}
