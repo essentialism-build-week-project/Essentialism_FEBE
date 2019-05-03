@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css';
 import React from 'react';
 import awsmobile from './aws-exports';
 import FinalPage from './components/FinalPage/FinalPage';
-import { Wrapper } from './components/Global.Styles';
+import { WrapperRow } from './components/Global.Styles';
 import { theme as GromTheme } from './components/GrommetTheme';
 import ModalView from './components/Modal/Modal';
 import ProjectForm from './components/ProjectForm/ProjectForm';
@@ -26,6 +26,33 @@ Amplify.configure(awsmobile);
 
 NProgress.configure({ showSpinner: false });
 
+const theme = {
+    ...AmplifyTheme,
+    a: {
+        ...AmplifyTheme.a,
+        color: 'black',
+        fontWeight: 600,
+        textDecoration: 'underline'
+    },
+    formContainer: {
+        ...AmplifyTheme.formContainer,
+        marginTop: '15%'
+    },
+    sectionHeader: {
+        ...AmplifyTheme.sectionHeader,
+        backgroundColor: 'var(--squidInk)'
+    },
+    sectionBody: {
+        ...AmplifyTheme.sectionBody,
+        margin: '0'
+    },
+    formSection: {
+        ...AmplifyTheme.formSection,
+        borderRadius: '1%',
+        padding: '25px'
+    }
+};
+
 const reorder = (list, startIndex, endIndex) => {
     //will work for both value and project
     const result = Array.from(list);
@@ -34,23 +61,6 @@ const reorder = (list, startIndex, endIndex) => {
 
     return result;
 };
-
-// const customBreakpoints = deepMerge(grommet, {
-//   global: {
-//     breakpoints: {
-//       xsmall: {
-//         value: 500
-//       },
-//       small: {
-//         value: 900
-//       },
-//       medium: undefined,
-//       middle: {
-//         value: 3000
-//       }
-//     }
-//   }
-// });
 
 class App extends React.Component {
     state = {
@@ -68,8 +78,9 @@ class App extends React.Component {
         showModal: false
     };
 
-    handleModalSubmit = modalDesc => {
-        this.setState({ modalDesc });
+    componentDidMount = () => {
+        this.initialValueLoad();
+        this.initialProjectLoad();
     };
 
     initialValueLoad = async () => {
@@ -83,17 +94,36 @@ class App extends React.Component {
         }
     };
 
-    handleValueFilter = () => {
-        this.setState({ valueIsFiltered: !this.state.valueIsFiltered });
+    initialProjectLoad = async () => {
+        try {
+            NProgress.start();
+            const result = await API.graphql(graphqlOperation(listProjects));
+            const projects = result.data.listProjects.items;
+            this.setState({ projects }, () => NProgress.done());
+        } catch (err) {
+            console.log('Error listing projects:', err);
+        }
     };
 
-    handleValueFilter = () => {
-        this.setState({ valueIsFiltered: !this.state.valueIsFiltered });
+    handleModalSubmit = modalDesc => {
+        this.setState({ modalDesc });
+    };
+
+    handleClearModalDesc = () => {
+        this.setState({
+            modalDesc: '',
+            valueIsFiltered: false,
+            projectIsFiltered: false
+        });
     };
 
     handleChange = e => {
         const { name, value } = e.target;
         this.setState({ [name]: value });
+    };
+
+    handleValueFilter = () => {
+        this.setState({ valueIsFiltered: !this.state.valueIsFiltered });
     };
 
     handleValueModify = async value => {
@@ -103,6 +133,7 @@ class App extends React.Component {
             valueDescription: value.description
         });
     };
+
     handleValueDelete = async value => {
         const { id } = value;
         try {
@@ -116,23 +147,6 @@ class App extends React.Component {
                 value => value.id !== deletedValue.id
             );
             this.setState({ values: updateValues }, () => NProgress.done());
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    handleValueDelete = async value => {
-        const { id } = value;
-        try {
-            const input = { id };
-            const result = await API.graphql(
-                graphqlOperation(deleteValue, { input })
-            );
-            const deletedValue = result.data.deleteValue;
-            const updateValues = this.state.values.filter(
-                value => value.id !== deletedValue.id
-            );
-            this.setState({ values: updateValues });
         } catch (err) {
             console.log(err);
         }
@@ -206,35 +220,6 @@ class App extends React.Component {
         }
     };
 
-    initialProjectLoad = async () => {
-        try {
-            NProgress.start();
-            const result = await API.graphql(graphqlOperation(listProjects));
-            const projects = result.data.listProjects.items;
-            this.setState({ projects }, () => NProgress.done());
-        } catch (err) {
-            console.log('Error listing projects:', err);
-        }
-    };
-
-    initialProjectLoad = async () => {
-        try {
-            const result = await API.graphql(graphqlOperation(listProjects));
-            const projects = result.data.listProjects.items;
-            this.setState({ projects });
-        } catch (err) {
-            console.log('Error listing projects:', err);
-        }
-    };
-
-    handleClearModalDesc = () => {
-        this.setState({
-            modalDesc: '',
-            valueIsFiltered: false,
-            projectIsFiltered: false
-        });
-    };
-
     handleFilter = () => {
         this.setState({
             projectIsFiltered: !this.state.projectIsFiltered,
@@ -251,7 +236,7 @@ class App extends React.Component {
                     projectName: project.name,
                     projectDescription: project.description
                 },
-                NProgress.done()
+                () => NProgress.done()
             );
         } catch (err) {
             console.log('There was an error updating list:', err);
@@ -271,23 +256,6 @@ class App extends React.Component {
                 value => value.id !== deletedProject.id
             );
             this.setState({ projects: updateProjects }, () => NProgress.done());
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    handleProjectDelete = async project => {
-        const { id } = project;
-        try {
-            const input = { id };
-            const result = await API.graphql(
-                graphqlOperation(deleteProject, { input })
-            );
-            const deletedProject = result.data.deleteProject;
-            const updateProjects = this.state.projects.filter(
-                value => value.id !== deletedProject.id
-            );
-            this.setState({ projects: updateProjects });
         } catch (err) {
             console.log(err);
         }
@@ -368,14 +336,6 @@ class App extends React.Component {
         }
     };
 
-    //   this.setState({
-    //     projectName: "",
-    //     projectDescription: "",
-    //     projects: updatedProjects
-    //   });
-    // }
-    // };
-
     render() {
         const {
             valueName,
@@ -414,28 +374,30 @@ class App extends React.Component {
                                     }
                                 />
                             ) : (
-                                <Box responsive={true}>
-                                    <Button
-                                        label="test"
-                                        color={
-                                            this.state.values.length > 2 &&
-                                            this.state.projects.length > 2
-                                                ? '#00739D'
-                                                : 'lightgrey'
-                                        }
-                                        margin="small"
-                                        onClick={
-                                            this.state.values.length > 2 &&
-                                            this.state.projects.length > 2
-                                                ? this.handleFilter
-                                                : () =>
-                                                      alert(
-                                                          'Each list must have atleast 3 items!'
-                                                      )
-                                        }
-                                    />
+                                    <Box responsive={true} background='#F8F8F8'
+>
+                                    <WrapperRow>
+                                            {this.state.values.length > 2 && this.state.projects.length > 2 ? <Box margin={ {top: 'medium'}} animation='pulse'>
+                                                <Button
+                                                    label="Essentialize"
+                                                    color='magenta'
+                                                    margin="small"
+                                                    onClick={
+                                                        this.state.values.length >
+                                                            2 &&
+                                                            this.state.projects.length >
+                                                            2
+                                                            ? this.handleFilter
+                                                            : () =>
+                                                                alert(
+                                                                    'Each list must have atleast 3 items!'
+                                                                )
+                                                    }
+                                                />
+                                            </Box> : <Box margin='medium' />}
+                                    </WrapperRow>
 
-                                    <Wrapper
+                                    <WrapperRow
                                         justify="around"
                                         direction="row"
                                         responsive={true}
@@ -486,7 +448,7 @@ class App extends React.Component {
                                                 this.handleProjectSubmit
                                             }
                                         />
-                                    </Wrapper>
+                                    </WrapperRow>
                                 </Box>
                             )}
                         </Box>
@@ -496,32 +458,5 @@ class App extends React.Component {
         );
     }
 }
-
-const theme = {
-    ...AmplifyTheme,
-    a: {
-        ...AmplifyTheme.a,
-        color: 'black',
-        fontWeight: 600,
-        textDecoration: 'underline'
-    },
-    formContainer: {
-        ...AmplifyTheme.formContainer,
-        marginTop: '15%'
-    },
-    sectionHeader: {
-        ...AmplifyTheme.sectionHeader,
-        backgroundColor: 'var(--squidInk)'
-    },
-    sectionBody: {
-        ...AmplifyTheme.sectionBody,
-        margin: '0'
-    },
-    formSection: {
-        ...AmplifyTheme.formSection,
-        borderRadius: '1%',
-        padding: '25px'
-    }
-};
 
 export default withAuthenticator(App, true, [], null, theme);

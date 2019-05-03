@@ -1,32 +1,29 @@
-import { Button as baseButton } from "rebass";
 import styled from "styled-components";
 
-export const Button = styled(baseButton)`
-  cursor: pointer;
-  color: black;
-  background-color: white;
-  border: 1px solid black;
-  &:hover {
-    color: white;
-    background-color: black;
-  }
-`;
-
-export const Input = styled.input`
-  padding: 1rem;
-`;
-
 export const Container = styled.div`
-  max-width: 900px;
+  max-width: 500px;
   width: 98%;
   margin: 0 auto;
 `;
 
-export const Wrapper = styled.div`
+export const WrapperRow = styled.div`
+  max-width: 800px;
+  width: 98%;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-around;
   flex-direction: row;
+  justify-content: space-around;
   @media (max-width: 720px) {
     flex-direction: column;
   }
 `;
+
+export const WrapperColumn = styled.div`
+  max-width: 500px;
+  width: 98%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
