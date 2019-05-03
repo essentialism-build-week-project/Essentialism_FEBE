@@ -4,6 +4,7 @@ import React from "react";
 import Confetti from "react-confetti";
 import { Flex } from "rebass";
 // import { Button } from "../Global.Styles";
+import StripeButton from "../StripeButton/StripeButton";
 
 export default function FinalPage(props) {
   return (
@@ -62,6 +63,7 @@ export default function FinalPage(props) {
           color="#00739D"
           onClick={props.handleClearModalDesc}
         />
+        <StripeButton />
       </Flex>
       <Confetti
         style={{ pointerEvents: "none" }}
