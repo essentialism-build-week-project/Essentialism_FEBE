@@ -45,8 +45,7 @@ export default class ModalView extends Component {
                             has been acheived!
                         </Heading>
                         <Paragraph margin="medium">
-                            Breifly describe in a few sentences why you selected
-                            the top three values and projects that you did.
+                            Breifly describe why you chose these top three values and projects and express why they are essential to you.
                         </Paragraph>
                         <Form onSubmit={this.handleSubmit}>
                             <WrapperColumn>
