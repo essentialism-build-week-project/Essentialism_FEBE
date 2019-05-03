@@ -21,6 +21,7 @@ import {
     updateValue
 } from './graphql/mutations';
 import { listProjects, listValues } from './graphql/queries';
+import Footer from './components/Footer/Footer';
 
 Amplify.configure(awsmobile);
 
@@ -353,6 +354,7 @@ class App extends React.Component {
             <Grommet theme={GromTheme}>
                 <ResponsiveContext.Consumer>
                     {size => (
+                        <>
                         <Box>
                             {this.state.valueIsFiltered &&
                                 this.state.projectIsFiltered && (
@@ -458,6 +460,8 @@ class App extends React.Component {
                                 </Box>
                             )}
                         </Box>
+                    <Footer />
+                    </>
                     )}
                 </ResponsiveContext.Consumer>
             </Grommet>
