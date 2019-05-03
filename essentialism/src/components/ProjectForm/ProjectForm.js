@@ -1,6 +1,6 @@
+import { Box, Button, Heading, TextInput } from "grommet";
 import React, { Component } from "react";
-import { Box } from "rebass";
-import { Button, Input } from "../Global.Styles";
+// import { Box } from "rebass";
 import ProjectList from "../ProjectList/ProjectList";
 
 export default class ProjectForm extends Component {
@@ -11,32 +11,40 @@ export default class ProjectForm extends Component {
   render() {
     return (
       <div>
-        <Box mb={3}>
+        <Box>
           <form onSubmit={this.props.handleSubmit}>
             <label>
-              <p>Enter a name for your project</p>
-              <Input
-                type="text"
+              <Heading margin="xsmall" level="5">
+                Enter a name for your project
+              </Heading>
+              <TextInput
                 name="projectName"
+                placeholder="Name of project"
                 value={this.props.name}
                 onChange={this.props.handleChange}
-                placeholder="Project Name"
+                color="#6495ED"
               />
             </label>
             <label>
-              <p>Give a brief description of your Project</p>
-              <Input
-                type="text"
+              <Heading margin="xsmall" level="5">
+                Give a brief description of your Project
+              </Heading>
+              <TextInput
                 name="projectDescription"
+                placeholder="Description of project"
                 value={this.props.description}
                 onChange={this.props.handleChange}
-                placeholder="Description of project"
+                color="#00739D"
               />
             </label>
+
             <Box>
-              <Button type="submit" bg="Black" mt={3}>
-                {this.props.id === "" ? "Add Project" : "Modify Project"}
-              </Button>
+              <Button
+                label={this.props.id === "" ? "Add Project" : "Modify Project"}
+                color="#00739D"
+                type="submit"
+                margin="small"
+              />
             </Box>
           </form>
         </Box>
