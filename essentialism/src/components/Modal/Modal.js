@@ -34,7 +34,7 @@ export default class ModalView extends Component {
   render() {
     const { open } = this.state;
     return (
-      <Box>
+      <Box animation="pulse">
         <Modal open={open} onClose={this.onCloseModal} center>
           <Heading>Zen-like Essentialism has been acheived!</Heading>
           <Paragraph>

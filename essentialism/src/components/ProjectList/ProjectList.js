@@ -29,12 +29,12 @@ export default function ProjectList(props) {
                     >
                       <div>
                         <Box
-                        size="1/2"
+                          animation={["fadeIn", "slideDown"]}
+                          size="1/2"
                           direction="column"
                           border={{ color: "#00739D", size: "small" }}
                           pad="small"
                           margin="small"
-                   
                         >
                           <Heading margin="xsmall" level="3">
                             {project.name}
@@ -69,11 +69,6 @@ export default function ProjectList(props) {
           )}
         </Droppable>
       </DragDropContext>
-      {/* {props.projects.length > 3 && !props.isFiltered ? (
-        <Button onClick={props.handleFilter}>Essentialize</Button>
-      ) : props.projects.length > 3 && props.isFiltered ? (
-        <Button onClick={props.handleFilter}>Un-Essentialize</Button>
-      ) : null}{" "} */}
     </div>
   );
 }

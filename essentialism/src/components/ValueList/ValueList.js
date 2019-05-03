@@ -26,12 +26,12 @@ export default function ValueList(props) {
                     >
                       <div>
                         <Box
-                         size="1/2"
+                          animation={["fadeIn", "slideDown"]}
+                          size="1/2"
                           direction="column"
                           border={{ color: "#00739D", size: "small" }}
                           pad="small"
                           margin="small"
-                        
                         >
                           <Heading margin="xsmall" level="3">
                             {value.name}
@@ -66,14 +66,6 @@ export default function ValueList(props) {
           )}
         </Droppable>
       </DragDropContext>
-      {/* {props.values.length > 3 && !props.isFiltered ? (
-        <Button onClick={props.handleFilter}>Essentialize</Button>
-
-
-        
-      ) : props.values.length > 3 && props.isFiltered ? (
-        <Button onClick={props.handleFilter}>Un-Essentialize</Button>
-      ) : null} */}
     </div>
   );
 }

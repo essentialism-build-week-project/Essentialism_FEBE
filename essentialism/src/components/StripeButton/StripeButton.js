@@ -19,7 +19,6 @@ const handleCharge = async token => {
                 }
             }
         });
-        console.log(result);
     } catch (err) {
         console.log('There was an error charging credit card:', err);
     }

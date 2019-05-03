@@ -1,7 +1,5 @@
 import { Box, Button, Heading, Paragraph } from "grommet";
 import React from "react";
-// import useWindowSize from 'react-use/lib/useWindowSize'
-import Confetti from "react-confetti";
 import { Flex } from "rebass";
 // import { Button } from "../Global.Styles";
 import StripeButton from "../StripeButton/StripeButton";
@@ -13,7 +11,7 @@ export default function FinalPage(props) {
         <h2>Achieve more by doing less</h2>
       </Flex>
 
-      <Flex justifyContent="space-around" pt={5}>
+      <Flex justifyContent="center" pt={5}>
         <div>
           <h3>Your top 3 values</h3>
 
@@ -21,6 +19,7 @@ export default function FinalPage(props) {
             index < 3 ? (
               <div key={value.id}>
                 <Box
+                  animation={["fadeIn", "slideUp"]}
                   direction="column"
                   border={{ color: "#00739D", size: "small" }}
                   pad="small"
@@ -41,6 +40,7 @@ export default function FinalPage(props) {
             index < 3 ? (
               <div key={project.id}>
                 <Box
+                  animation={["fadeIn", "slideUp"]}
                   direction="column"
                   border={{ color: "#00739D", size: "small" }}
                   pad="small"
@@ -64,13 +64,13 @@ export default function FinalPage(props) {
           onClick={props.handleClearModalDesc}
         />
         <StripeButton />
+        {/* <Confetti
+          style={{ pointerEvents: "none" }}
+          numberOfPieces={1500}
+          gravity={0.25}
+          recycle={false}
+        /> */}
       </Flex>
-      <Confetti
-        style={{ pointerEvents: "none" }}
-        numberOfPieces={1500}
-        gravity={0.25}
-        recycle={false}
-      />
     </Box>
   );
 }
