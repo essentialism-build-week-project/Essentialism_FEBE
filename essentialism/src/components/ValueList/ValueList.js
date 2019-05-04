@@ -13,58 +13,66 @@ export default function ValueList(props) {
   return (
     <div>
       <DragDropContext onDragEnd={props.onDragEnd}>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {values.map((value, index) => (
-                <Draggable key={value.id} draggableId={value.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <div>
-                        <Box
-                          animation={["fadeIn", "slideDown"]}
-                          size="1/2"
-                          direction="column"
-                          border={{ color: "#00739D", size: "small" }}
-                          pad="small"
-                          margin="small"
-                        >
-                          <Heading margin="xsmall" level="3">
-                            {value.name}
-                          </Heading>
-                          <Paragraph margin="small">
-                            {value.description}
-                          </Paragraph>
-                          <Box direction="row">
-                            <Button
-                              label="Edit"
-                              icon={<Edit />}
-                              onClick={() => props.handleModify(value)}
-                              color="#00739D"
-                              margin="small"
-                            />
-                            <Button
-                              label="Delete"
-                              icon={<Trash />}
-                              onClick={() => props.handleDelete(value)}
-                              color="#00739D"
-                              margin="small"
-                            />
+        <Box margin={{ bottom: "xlarge" }}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {values.map((value, index) => (
+                  <Draggable
+                    key={value.id}
+                    draggableId={value.id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <div>
+                          <Box
+                            size="1/2"
+                            direction="column"
+                            border={{
+                              color: "border",
+                              size: "xsmall"
+                            }}
+                            pad="medium"
+                            margin="small"
+                            animation="zoomIn"
+                            background="#ffffff"
+                          >
+                            <Heading margin="xsmall" level="3" color="brand">
+                              {value.name}
+                            </Heading>
+                            <Paragraph margin="small">
+                              {value.description}
+                            </Paragraph>
+                            <Box direction="row">
+                              <Button
+                                label="Edit"
+                                icon={<Edit color="brand" />}
+                                onClick={() => props.handleModify(value)}
+                                margin="small"
+                              />
+                              <Button
+                                label="Delete"
+                                icon={<Trash color="brand" />}
+                                onClick={() => props.handleDelete(value)}
+                                margin="small"
+                              />
+                            </Box>
                           </Box>
-                        </Box>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </Box>
       </DragDropContext>
     </div>
   );

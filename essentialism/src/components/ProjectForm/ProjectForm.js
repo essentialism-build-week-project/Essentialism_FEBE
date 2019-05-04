@@ -1,6 +1,6 @@
-import { Box, Button, Heading, TextInput } from "grommet";
+import { Box, Button, Form, FormField, Stack, Text } from "grommet";
+import { AddCircle, Edit } from 'grommet-icons';
 import React, { Component } from "react";
-// import { Box } from "rebass";
 import ProjectList from "../ProjectList/ProjectList";
 
 export default class ProjectForm extends Component {
@@ -11,13 +11,10 @@ export default class ProjectForm extends Component {
   render() {
     return (
       <div>
-        <Box>
-          <form onSubmit={this.props.handleSubmit}>
+        <Box margin='large'>
+          <Form onSubmit={this.props.handleSubmit}>
             <label>
-              <Heading margin="xsmall" level="5">
-                Enter a name for your project
-              </Heading>
-              <TextInput
+              <FormField
                 name="projectName"
                 placeholder="Name of project"
                 value={this.props.name}
@@ -26,10 +23,7 @@ export default class ProjectForm extends Component {
               />
             </label>
             <label>
-              <Heading margin="xsmall" level="5">
-                Give a brief description of your Project
-              </Heading>
-              <TextInput
+              <FormField
                 name="projectDescription"
                 placeholder="Description of project"
                 value={this.props.description}
@@ -39,14 +33,33 @@ export default class ProjectForm extends Component {
             </label>
 
             <Box>
+              <Stack anchor='top'>
               <Button
-                label={this.props.id === "" ? "Add Project" : "Modify Project"}
-                color="#00739D"
+                label={this.props.id === "" ? "Project" : "Modify Project"}
+                icon={this.props.id === '' ? <AddCircle color='brand' /> : <Edit color='brand' />}
                 type="submit"
                 margin="small"
               />
+                {this.props.projects.length < 3 && !this.props.isModify ? (
+                  <Box
+                    round
+                    background="status-disabled"
+                    pad={{ horizontal: 'xsmall' }}
+                  >
+                    <Text>{this.props.projects.length}</Text>
+                  </Box>
+                ) : this.props.projects.length >= 3 && !this.props.isModify ? (
+                  <Box
+                    round
+                    background="accent-1"
+                    pad={{ horizontal: 'xsmall' }}
+                  >
+                    <Text>{this.props.projects.length}</Text>
+                  </Box>
+                ) : null}
+              </Stack>
             </Box>
-          </form>
+          </Form>
         </Box>
         <ProjectList
           handleFilter={this.props.handleFilter}

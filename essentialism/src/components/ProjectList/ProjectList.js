@@ -12,62 +12,66 @@ export default function ProjectList(props) {
   return (
     <div>
       <DragDropContext onDragEnd={props.onDragEnd}>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {projects.map((project, index) => (
-                <Draggable
-                  key={project.id}
-                  draggableId={project.id}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <div>
-                        <Box
-                          animation={["fadeIn", "slideDown"]}
-                          size="1/2"
-                          direction="column"
-                          border={{ color: "#00739D", size: "small" }}
-                          pad="small"
-                          margin="small"
-                        >
-                          <Heading margin="xsmall" level="3">
-                            {project.name}
-                          </Heading>
-                          <Paragraph margin="small">
-                            {project.description}
-                          </Paragraph>
-                          <Box direction="row">
-                            <Button
-                              label="Edit"
-                              icon={<Edit />}
-                              onClick={() => props.handleModify(project)}
-                              color="#00739D"
-                              margin="small"
-                            />
-                            <Button
-                              label="Delete"
-                              icon={<Trash />}
-                              onClick={() => props.handleDelete(project)}
-                              color="#00739D"
-                              margin="small"
-                            />
+        <Box margin={{ bottom: "xlarge" }}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {projects.map((project, index) => (
+                  <Draggable
+                    key={project.id}
+                    draggableId={project.id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <div>
+                          <Box
+                            size="1/2"
+                            direction="column"
+                            border={{
+                              color: "border",
+                              size: "xsmall"
+                            }}
+                            pad="medium"
+                            margin="small"
+                            animation="zoomIn"
+                            background="#ffffff"
+                          >
+                            <Heading margin="xsmall" level="3" color="brand">
+                              {project.name}
+                            </Heading>
+                            <Paragraph margin="small">
+                              {project.description}
+                            </Paragraph>
+                            <Box direction="row">
+                              <Button
+                                label="Edit"
+                                icon={<Edit color="brand" />}
+                                onClick={() => props.handleModify(project)}
+                                margin="small"
+                              />
+                              <Button
+                                label="Delete"
+                                icon={<Trash color="brand" />}
+                                onClick={() => props.handleDelete(project)}
+                                margin="small"
+                              />
+                            </Box>
                           </Box>
-                        </Box>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </Box>
       </DragDropContext>
     </div>
   );
