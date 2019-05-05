@@ -1,4 +1,4 @@
-import { Box, Button, Form, Heading, Paragraph, TextArea } from 'grommet';
+import { Box, Button, Form, Heading, Paragraph, TextArea, Text } from 'grommet';
 import React, { Component } from 'react';
 import Modal from 'react-responsive-modal';
 import { WrapperColumn } from '../Global.Styles';
@@ -7,7 +7,8 @@ export default class ModalView extends Component {
     state = {
         open: true,
         desc: '',
-        submittedDesc: ''
+        submittedDesc: '',
+        errors: ''
     };
 
     onOpenModal = () => {
@@ -23,14 +24,35 @@ export default class ModalView extends Component {
         this.setState({ [name]: value });
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
+    
+    handleValidate = () => {
+        let isError = false;
+        const errors = {
+            descError: "",
+        };
+        
+    if (!this.state.desc) {
+        isError = true;
+        errors.descError = "A description is required";
+    }
+    
+    this.setState(errors);
+    
+    return isError;
+};
+
+handleSubmit = e => {
+    e.preventDefault();
+    const err = this.handleValidate()
+
+    if(!err) {
         this.setState({ submittedDesc: this.state.desc, desc: '' }, () =>
             this.props.handleModalSubmit(this.state.submittedDesc)
         );
 
         this.onCloseModal();
-    };
+    }
+};
 
 <<<<<<< HEAD
   render() {
@@ -64,11 +86,11 @@ export default class ModalView extends Component {
                 <Modal open={open} onClose={this.onCloseModal} center>
                     <WrapperColumn>
                         <Heading margin="xsmall" color="brand">
-                            Essentialism
+                            Why?
                         </Heading>
-                        <Heading margin="xsmall" color="brand">
+                        {/* <Heading margin="xsmall" color="brand">
                             has been acheived!
-                        </Heading>
+                        </Heading> */}
                         <Paragraph margin="medium">
                             Breifly describe why you chose these top three values and projects and express why they are essential to you.
                         </Paragraph>
@@ -80,14 +102,15 @@ export default class ModalView extends Component {
                                     name="desc"
                                     placeholder="Enter description"
                                     rows="15"
-                                    cols="80"
+                                    cols="40"
                                 />
+                                <Text color='#FF4040' margin='small' textAlign='center'>{this.state.descError}</Text >
                                 <Button
                                     primary
                                     label="Submit"
                                     type="submit"
                                     margin="large"
-                                />
+                                    />
                             </WrapperColumn>
                         </Form>
                     </WrapperColumn>

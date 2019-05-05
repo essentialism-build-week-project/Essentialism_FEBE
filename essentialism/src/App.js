@@ -26,7 +26,7 @@ import React from 'react';
 import awsmobile from './aws-exports';
 import FinalPage from './components/FinalPage/FinalPage';
 import Footer from './components/Footer/Footer';
-import { WrapperRow } from './components/Global.Styles';
+import { WrapperRow, Container } from './components/Global.Styles';
 import { theme as GromTheme } from './components/GrommetTheme';
 import ModalView from './components/Modal/Modal';
 import ProjectForm from './components/ProjectForm/ProjectForm';
@@ -52,7 +52,7 @@ const theme = {
     ...AmplifyTheme,
     a: {
         ...AmplifyTheme.a,
-        color: 'black',
+        color: '#333',
         fontWeight: 600,
         textDecoration: 'underline'
     },
@@ -62,7 +62,7 @@ const theme = {
     },
     sectionHeader: {
         ...AmplifyTheme.sectionHeader,
-        backgroundColor: 'var(--squidInk)'
+        backgroundColor: '#7D4CDB'
     },
     sectionBody: {
         ...AmplifyTheme.sectionBody,
@@ -621,16 +621,15 @@ class App extends React.Component {
                                                         label="Essentialize"
                                                         margin="small"
                                                         disabled={true}
-                                                    />{' '}
+                                                    />
                                                 </Box>
                                             )}
                                         </WrapperRow>
 
                                         <WrapperRow
-                                            justify="around"
-                                            direction="row"
                                             responsive={true}
                                         >
+                                        <Container>
                                             <ValueForm
                                                 name={valueName}
                                                 description={valueDescription}
@@ -656,6 +655,8 @@ class App extends React.Component {
                                                     this.handleValueSubmit
                                                 }
                                             />
+                                                </Container>
+                                                <Container>
                                             <ProjectForm
                                                 name={projectName}
                                                 description={projectDescription}
@@ -683,6 +684,7 @@ class App extends React.Component {
                                                     this.handleProjectSubmit
                                                 }
                                             />
+                                            </Container>
                                         </WrapperRow>
                                     </Box>
                                 )}
