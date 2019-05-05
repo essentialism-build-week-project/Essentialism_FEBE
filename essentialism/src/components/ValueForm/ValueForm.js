@@ -36,7 +36,7 @@ export default class ValueForm extends Component {
                                     label={
                                         this.props.id === ''
                                             ? 'Value'
-                                            : 'Modify Project'
+                                            : 'Modify Value'
                                     }
                                     icon={
                                         this.props.id === '' ? (
