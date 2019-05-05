@@ -3,7 +3,6 @@ import React from 'react';
 import Confetti from 'react-confetti';
 import { WrapperColumn, WrapperRow } from '../Global.Styles';
 import StripeButton from '../StripeButton/StripeButton';
-import { isNull } from 'util';
 
 export default function FinalPage(props) {
 
