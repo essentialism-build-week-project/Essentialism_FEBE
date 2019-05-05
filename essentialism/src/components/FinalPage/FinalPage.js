@@ -5,6 +5,16 @@ import { WrapperColumn, WrapperRow } from '../Global.Styles';
 import StripeButton from '../StripeButton/StripeButton';
 
 export default function FinalPage(props) {
+
+    const firstThreeValues = props.values.map( (value, index) => {
+        return index <=2 ? value : null
+    }).filter( item => item !== null)
+
+    const firstThreeProjects = props.projects.map( (project, index) => {
+        return index <=2 ? project : null
+    }).filter( item => item !== null)
+
+
     return (
         <Box background="light-1" pad="large">
             <WrapperColumn>
@@ -85,7 +95,7 @@ export default function FinalPage(props) {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {props.values.map((value, index) => {
+                                        {firstThreeValues.map((value, index) => {
                                             return (
                                                 <TableRow key={value.id}>
                                                     <TableCell scope="row">
@@ -141,7 +151,7 @@ export default function FinalPage(props) {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {props.values.map((project, index) => {
+                                        {firstThreeProjects.map((project, index) => {
                                             return (
                                                 <TableRow key={project.id}>
                                                     <TableCell scope="row">
