@@ -32,8 +32,8 @@ export default class ValueForm extends Component {
                             />
                         </label>
 
-                        <Box pad={{ bottom: 'large'}}>
-                            <Stack anchor='top-right' guidingChild='last' alignSelf='center'>
+                        <Box pad={{ bottom: 'medium'}}>
+                            <Stack anchor='top-right' guidingChild='first'>
                             <Box>
 
                                 <Button
