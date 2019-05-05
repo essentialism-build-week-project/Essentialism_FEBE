@@ -1,4 +1,15 @@
-import { Box, Button, Heading, Paragraph, Table, TableBody, TableCell, TableHeader, TableRow, Text } from 'grommet';
+import {
+    Box,
+    Button,
+    Heading,
+    Paragraph,
+    Table,
+    TableBody,
+    TableCell,
+    TableHeader,
+    TableRow,
+    Text
+} from 'grommet';
 import React from 'react';
 import Confetti from 'react-confetti';
 import { WrapperColumn, WrapperRow } from '../Global.Styles';
@@ -12,14 +23,14 @@ export default function FinalPage(props) {
                     color="brand"
                     size="small"
                     weight="bold"
-                    textAlign='center'
+                    textAlign="center"
                 >
                     Achieve more by doing less!
                 </Heading>
-               
+
                 {props.values.length > 3 || props.projects.length > 3 ? (
                     <>
-                        <Paragraph textAlign='center'>
+                        <Paragraph textAlign="center">
                             You have successfully decreased the number of things
                             you are focused upon by:
                         </Paragraph>
@@ -35,20 +46,19 @@ export default function FinalPage(props) {
                                 %
                             </Heading>
                         </Box>
-                        <Box margin={{ bottom: 'medium'}}>
-                        <Paragraph textAlign='center'>
-                            Now you can use this cognitive energy surplus to
-                            focus upon this things that matter most.
-                        </Paragraph>
-
+                        <Box margin={{ bottom: 'medium' }}>
+                            <Paragraph textAlign="center">
+                                Now you can use this cognitive energy surplus to
+                                focus upon this things that matter most.
+                            </Paragraph>
                         </Box>
                     </>
                 ) : (
-                        <Box margin={{ bottom: 'medium' }}>
-                    <Paragraph textAlign='center'>
-                        Now that you are aware of what's most important to
-                        you... continue to stay focused!
-                    </Paragraph>
+                    <Box margin={{ bottom: 'medium' }}>
+                        <Paragraph textAlign="center">
+                            Now that you are aware of what's most important to
+                            you... continue to stay focused!
+                        </Paragraph>
                     </Box>
                 )}
 
@@ -141,25 +151,29 @@ export default function FinalPage(props) {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {props.values.map((project, index) => {
-                                            return (
-                                                <TableRow key={project.id}>
-                                                    <TableCell scope="row">
-                                                        <strong>
-                                                            {index + 1}
-                                                        </strong>
-                                                    </TableCell>
-                                                    <TableCell scope="row">
-                                                        <strong>
-                                                            {project.name}
-                                                        </strong>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {project.description}
-                                                    </TableCell>
-                                                </TableRow>
-                                            );
-                                        })}
+                                        {props.projects.map(
+                                            (project, index) => {
+                                                return (
+                                                    <TableRow key={project.id}>
+                                                        <TableCell scope="row">
+                                                            <strong>
+                                                                {index + 1}
+                                                            </strong>
+                                                        </TableCell>
+                                                        <TableCell scope="row">
+                                                            <strong>
+                                                                {project.name}
+                                                            </strong>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {
+                                                                project.description
+                                                            }
+                                                        </TableCell>
+                                                    </TableRow>
+                                                );
+                                            }
+                                        )}
                                     </TableBody>
                                 </Table>
                             </Box>
@@ -170,10 +184,11 @@ export default function FinalPage(props) {
                     <Text weight="bold" size="xlarge" margin="medium">
                         The reasons why:
                     </Text>
-                    <Text textAlign='center'>{props.modalDesc}</Text>
+                    <Text textAlign="center">{props.modalDesc}</Text>
                 </WrapperColumn>
                 <Button
-                    primary label="Back"
+                    primary
+                    label="Back"
                     color="brand"
                     margin="medium"
                     onClick={props.handleClearModalDesc}

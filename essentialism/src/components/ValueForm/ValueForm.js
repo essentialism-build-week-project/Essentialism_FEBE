@@ -11,7 +11,7 @@ export default class ValueForm extends Component {
     render() {
         return (
             <div>
-                <Box margin="large">
+                <Box margin='large'>
                     <Form onSubmit={this.props.handleSubmit}>
                         <label>
                             <FormField
@@ -19,37 +19,31 @@ export default class ValueForm extends Component {
                                 placeholder="Name of value"
                                 value={this.props.name}
                                 onChange={this.props.handleChange}
-                                color="#00739D"
+                                color="#6495ED"
                             />
                         </label>
                         <label>
                             <FormField
                                 name="valueDescription"
-                                placeholder="Description for value"
+                                placeholder="Description of value"
                                 value={this.props.description}
                                 onChange={this.props.handleChange}
+                                color="#00739D"
                             />
                         </label>
-                        <Box>
-                            <Stack anchor="top">
+
+                        <Box pad={{ bottom: 'large'}}>
+                            <Stack anchor='top-right' guidingChild='last' alignSelf='center'>
+                            <Box>
+
                                 <Button
-                                    label={
-                                        this.props.id === ''
-                                            ? 'Value'
-                                            : 'Modify Value'
-                                    }
-                                    icon={
-                                        this.props.id === '' ? (
-                                            <AddCircle color="brand" />
-                                        ) : (
-                                            <Edit color="brand" />
-                                        )
-                                    }
+                                    label={this.props.id === "" ? "Value" : "Modify Value"}
+                                    icon={this.props.id === '' ? <AddCircle color='brand' /> : <Edit color='brand' />}
                                     type="submit"
                                     margin="small"
                                 />
-                                {this.props.values.length < 3 &&
-                                !this.props.isModify ? (
+                            </Box>
+                                {this.props.values.length < 3 && !this.props.isModify ? (
                                     <Box
                                         round
                                         background="status-disabled"
@@ -57,8 +51,7 @@ export default class ValueForm extends Component {
                                     >
                                         <Text>{this.props.values.length}</Text>
                                     </Box>
-                                ) : this.props.values.length >= 3 &&
-                                  !this.props.isModify ? (
+                                ) : this.props.values.length >= 3 && !this.props.isModify ? (
                                     <Box
                                         round
                                         background="accent-1"
@@ -75,9 +68,10 @@ export default class ValueForm extends Component {
                     handleFilter={this.props.handleFilter}
                     onDragEnd={this.props.onDragEnd}
                     handleModify={this.props.handleModify}
+                    handleChange={this.props.handleChange}
                     handleDelete={this.props.handleDelete}
                     values={this.props.values}
-                    modify={this.props.id === ''}
+                    modify={this.props.id === ""}
                     isFiltered={this.props.isFiltered}
                 />
             </div>

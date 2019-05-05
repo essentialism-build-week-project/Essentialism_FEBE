@@ -32,14 +32,17 @@ export default class ProjectForm extends Component {
               />
             </label>
 
-            <Box>
-              <Stack anchor='top'>
+            <Box pad={{ bottom: 'large' }}>
+              <Stack anchor='top-right' guidingChild='last' alignSelf='center'>
+              <Box>
+
               <Button
                 label={this.props.id === "" ? "Project" : "Modify Project"}
                 icon={this.props.id === '' ? <AddCircle color='brand' /> : <Edit color='brand' />}
                 type="submit"
                 margin="small"
               />
+              </Box>
                 {this.props.projects.length < 3 && !this.props.isModify ? (
                   <Box
                     round
