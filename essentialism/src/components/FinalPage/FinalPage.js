@@ -1,15 +1,4 @@
-import {
-    Box,
-    Button,
-    Heading,
-    Paragraph,
-    Table,
-    TableBody,
-    TableCell,
-    TableHeader,
-    TableRow,
-    Text
-} from 'grommet';
+import { Box, Button, Heading, Paragraph, Table, TableBody, TableCell, TableHeader, TableRow, Text } from 'grommet';
 import React from 'react';
 import Confetti from 'react-confetti';
 import { WrapperColumn, WrapperRow } from '../Global.Styles';
@@ -17,22 +6,20 @@ import StripeButton from '../StripeButton/StripeButton';
 
 export default function FinalPage(props) {
     return (
-        <Box background="light-1" pad="xlarge">
+        <Box background="light-1" pad="large">
             <WrapperColumn>
-                <Text
+                <Heading
                     color="brand"
-                    size="xlarge"
+                    size="small"
                     weight="bold"
-                    margin={{ bottom: 'large' }}
+                    textAlign='center'
                 >
                     Achieve more by doing less!
-                </Text>
-                <Text size="large" weight="bold">
-                    Congratulations!!!
-                </Text>
+                </Heading>
+               
                 {props.values.length > 3 || props.projects.length > 3 ? (
                     <>
-                        <Paragraph margin={{ bottom: 'large' }}>
+                        <Paragraph textAlign='center'>
                             You have successfully decreased the number of things
                             you are focused upon by:
                         </Paragraph>
@@ -48,16 +35,21 @@ export default function FinalPage(props) {
                                 %
                             </Heading>
                         </Box>
-                        <Paragraph>
+                        <Box margin={{ bottom: 'medium'}}>
+                        <Paragraph textAlign='center'>
                             Now you can use this cognitive energy surplus to
                             focus upon this things that matter most.
                         </Paragraph>
+
+                        </Box>
                     </>
                 ) : (
-                    <Paragraph>
+                        <Box margin={{ bottom: 'medium' }}>
+                    <Paragraph textAlign='center'>
                         Now that you are aware of what's most important to
                         you... continue to stay focused!
                     </Paragraph>
+                    </Box>
                 )}
 
                 <WrapperRow>
