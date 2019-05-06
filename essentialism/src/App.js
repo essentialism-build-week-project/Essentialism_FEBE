@@ -8,19 +8,12 @@ import React from 'react';
 import awsmobile from './aws-exports';
 import FinalPage from './components/FinalPage/FinalPage';
 import Footer from './components/Footer/Footer';
-import { WrapperRow, Container, WrapperColumn } from './components/Global.Styles';
+import { Container, WrapperRow } from './components/Global.Styles';
 import { theme as GromTheme } from './components/GrommetTheme';
 import ModalView from './components/Modal/Modal';
 import ProjectForm from './components/ProjectForm/ProjectForm';
 import ValueForm from './components/ValueForm/ValueForm';
-import {
-  createProject,
-  createValue,
-  deleteProject,
-  deleteValue,
-  updateProject,
-  updateValue
-} from "./graphql/mutations";
+import { createProject, createValue, deleteProject, deleteValue, updateProject, updateValue } from "./graphql/mutations";
 import { listProjects, listValues } from "./graphql/queries";
 
 Amplify.configure(awsmobile);
