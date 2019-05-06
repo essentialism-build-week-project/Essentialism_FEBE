@@ -1,7 +1,6 @@
 import { Box, Button, Form, FormField, Stack, Text } from 'grommet';
 import { AddCircle, Edit } from 'grommet-icons';
 import React, { Component } from 'react';
-import ValueList from '../ValueList/ValueList';
 
 export default class ValueForm extends Component {
     componentDidMount = async () => {
@@ -77,16 +76,6 @@ export default class ValueForm extends Component {
                         </Box>
                     </Form>
                 </Box>
-                <ValueList
-                    handleFilter={this.props.handleFilter}
-                    onDragEnd={this.props.onDragEnd}
-                    handleModify={this.props.handleModify}
-                    handleChange={this.props.handleChange}
-                    handleDelete={this.props.handleDelete}
-                    values={this.props.values}
-                    modify={this.props.id === ''}
-                    isFiltered={this.props.isFiltered}
-                />
             </div>
         );
     }
