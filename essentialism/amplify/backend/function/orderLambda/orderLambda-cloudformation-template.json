@@ -60,7 +60,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "essentialism-20190424110601-deployment",
-					"S3Key": "amplify-builds/orderLambda-1556846925-latest-build.zip"
+					"S3Key": "amplify-builds/orderLambda-1557126516-latest-build.zip"
 				}
 			}
 		},
