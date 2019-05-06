@@ -18,7 +18,7 @@ export default function Footer() {
                 </WrapperRow>
             </Box>
             <WrapperColumn>
-                <Text size='small'>COPYRIGHT © 2019 ESSENTIALIZE. ALL RIGHTS RESERVED.</Text>
+                <Text size='small' textAlign='center'>COPYRIGHT © 2019 ESSENTIALIZE. ALL RIGHTS RESERVED.</Text>
             </WrapperColumn>
         </Box>
     );
