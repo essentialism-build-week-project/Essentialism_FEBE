@@ -1,5 +1,5 @@
 import { Box, Button, Form, FormField, Stack, Text } from "grommet";
-import { AddCircle, Edit } from 'grommet-icons';
+import { AddCircle, Edit } from "grommet-icons";
 import React, { Component } from "react";
 import ProjectList from "../ProjectList/ProjectList";
 
@@ -11,7 +11,7 @@ export default class ProjectForm extends Component {
   render() {
     return (
       <div>
-        <Box margin='large'>
+        <Box margin="large">
           <Form onSubmit={this.props.handleSubmit}>
             <label>
               <FormField
@@ -34,22 +34,27 @@ export default class ProjectForm extends Component {
               />
             </label>
 
-            <Box pad={{ bottom: 'medium' }}>
-              <Stack anchor='top-right' guidingChild='first'>
-              <Box>
-
-              <Button
-                label={this.props.id === "" ? "Project" : "Modify Project"}
-                icon={this.props.id === '' ? <AddCircle color='brand' /> : <Edit color='brand' />}
-                type="submit"
-                margin="small"
-              />
-              </Box>
+            <Box pad={{ bottom: "medium" }}>
+              <Stack anchor="top-right" guidingChild="first">
+                <Box>
+                  <Button
+                    label={this.props.id === "" ? "Project" : "Modify Project"}
+                    icon={
+                      this.props.id === "" ? (
+                        <AddCircle color="brand" />
+                      ) : (
+                        <Edit color="brand" />
+                      )
+                    }
+                    type="submit"
+                    margin="small"
+                  />
+                </Box>
                 {this.props.projects.length < 3 && !this.props.isModify ? (
                   <Box
                     round
                     background="status-disabled"
-                    pad={{ horizontal: 'xsmall' }}
+                    pad={{ horizontal: "xsmall" }}
                   >
                     <Text>{this.props.projects.length}</Text>
                   </Box>
@@ -57,7 +62,7 @@ export default class ProjectForm extends Component {
                   <Box
                     round
                     background="accent-1"
-                    pad={{ horizontal: 'xsmall' }}
+                    pad={{ horizontal: "xsmall" }}
                   >
                     <Text>{this.props.projects.length}</Text>
                   </Box>
