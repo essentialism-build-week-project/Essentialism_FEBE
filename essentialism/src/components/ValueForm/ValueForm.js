@@ -20,6 +20,7 @@ export default class ValueForm extends Component {
                                 value={this.props.name}
                                 onChange={this.props.handleChange}
                                 color="#6495ED"
+                                required={true}
                             />
                         </label>
                         <label>
@@ -29,6 +30,7 @@ export default class ValueForm extends Component {
                                 value={this.props.description}
                                 onChange={this.props.handleChange}
                                 color="#00739D"
+                                required={true}
                             />
                         </label>
 

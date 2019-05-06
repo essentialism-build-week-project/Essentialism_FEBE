@@ -8,7 +8,7 @@ import React from 'react';
 import awsmobile from './aws-exports';
 import FinalPage from './components/FinalPage/FinalPage';
 import Footer from './components/Footer/Footer';
-import { WrapperRow, Container } from './components/Global.Styles';
+import { WrapperRow, Container, WrapperColumn } from './components/Global.Styles';
 import { theme as GromTheme } from './components/GrommetTheme';
 import ModalView from './components/Modal/Modal';
 import ProjectForm from './components/ProjectForm/ProjectForm';
@@ -426,10 +426,12 @@ class App extends React.Component {
                                                 </Box>
                                             )}
                                         </WrapperRow>
+                                           
 
                                         <WrapperRow
                                             responsive={true}
                                         >
+                                                
                                         <Container>
                                             <ValueForm
                                                 name={valueName}
@@ -488,7 +490,13 @@ class App extends React.Component {
                                             </Container>
                                         </WrapperRow>
                                     </Box>
+                                    
                                 )}
+                                <Box
+                                    direction="column"
+                                    border={{ color: 'brand', size: 'small' }}
+                                >
+                                </Box>
                             </Box>
                             <Footer />
                         </>
