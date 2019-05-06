@@ -1,27 +1,22 @@
-import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { AmplifyTheme, withAuthenticator } from "aws-amplify-react";
-import { Box, Button, Grommet } from "grommet";
-import { ResponsiveContext } from "grommet/contexts";
-import NProgress from "nprogress";
-import "nprogress/nprogress.css";
-import React from "react";
-import awsmobile from "./aws-exports";
-import FinalPage from "./components/FinalPage/FinalPage";
-import Footer from "./components/Footer/Footer";
-import { Container, WrapperRow } from "./components/Global.Styles";
-import { theme as GromTheme } from "./components/GrommetTheme";
-import ModalView from "./components/Modal/Modal";
-import ProjectForm from "./components/ProjectForm/ProjectForm";
-import ValueForm from "./components/ValueForm/ValueForm";
-import {
-  createProject,
-  createValue,
-  deleteProject,
-  deleteValue,
-  updateProject,
-  updateValue
-} from "./graphql/mutations";
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import { AmplifyTheme, withAuthenticator } from 'aws-amplify-react';
+import { Box, Button, Grommet } from 'grommet';
+import { ResponsiveContext } from 'grommet/contexts';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import React from 'react';
+import awsmobile from './aws-exports';
+import FinalPage from './components/FinalPage/FinalPage';
+import Footer from './components/Footer/Footer';
+import { Container, WrapperRow } from './components/Global.Styles';
+import { theme as GromTheme } from './components/GrommetTheme';
+import ModalView from './components/Modal/Modal';
+import ProjectForm from './components/ProjectForm/ProjectForm';
+import ValueForm from './components/ValueForm/ValueForm';
+import { createProject, createValue, deleteProject, deleteValue, updateProject, updateValue } from "./graphql/mutations";
 import { listProjects, listValues } from "./graphql/queries";
+import ValueList from './components/ValueList/ValueList';
+import ProjectList from './components/ProjectList/ProjectList';
 
 Amplify.configure(awsmobile);
 
@@ -339,119 +334,189 @@ class App extends React.Component {
     }
   };
 
-  render() {
-    const {
-      valueName,
-      valueDescription,
-      valueId,
-      valueIsFiltered,
-      values,
-      projectName,
-      projectDescription,
-      projectId,
-      projectIsFiltered,
-      projects,
-      isModify
-    } = this.state;
-    return (
-      <Grommet theme={GromTheme}>
-        <ResponsiveContext.Consumer>
-          {size => (
-            <>
-              <Box>
-                {this.state.valueIsFiltered && this.state.projectIsFiltered && (
-                  <>
-                    <ModalView handleModalSubmit={this.handleModalSubmit} />
-                  </>
-                )}
-                {this.state.modalDesc ? (
-                  <FinalPage
-                    values={this.state.values}
-                    projects={this.state.projects}
-                    modalDesc={this.state.modalDesc}
-                    handleClearModalDesc={this.handleClearModalDesc}
-                  />
-                ) : (
-                  <Box responsive={true} background="#F8F8F8">
-                    <WrapperRow>
-                      {this.state.values.length > 2 &&
-                      this.state.projects.length > 2 ? (
-                        <Box margin={{ top: "medium" }} animation="pulse">
-                          <Button
-                            label="Essentialize"
-                            color="magenta"
-                            margin="small"
-                            pad={{
-                              horizontal: "xsmall"
-                            }}
-                            onClick={
-                              this.state.values.length > 2 &&
-                              this.state.projects.length > 2
-                                ? this.handleFilter
-                                : () =>
-                                    alert(
-                                      "Each list must have atleast 3 items!"
-                                    )
-                            }
-                          />
-                        </Box>
-                      ) : (
-                        <Box margin={{ top: "medium" }}>
-                          <Button
-                            label="Essentialize"
-                            margin="small"
-                            disabled={true}
-                          />
-                        </Box>
-                      )}
-                    </WrapperRow>
+    render() {
+        const {
+            valueName,
+            valueDescription,
+            valueId,
+            valueIsFiltered,
+            values,
+            projectName,
+            projectDescription,
+            projectId,
+            projectIsFiltered,
+            projects,
+            isModify
+        } = this.state;
+        return (
+            <Grommet theme={GromTheme}>
+                <ResponsiveContext.Consumer>
+                    {size => (
+                        <>
+                            <Box>
+                                {this.state.valueIsFiltered &&
+                                    this.state.projectIsFiltered && (
+                                        <>
+                                            <ModalView
+                                                handleModalSubmit={
+                                                    this.handleModalSubmit
+                                                }
+                                            />
+                                        </>
+                                    )}
+                                {this.state.modalDesc ? (
+                                    <FinalPage
+                                        values={this.state.values}
+                                        projects={this.state.projects}
+                                        modalDesc={this.state.modalDesc}
+                                        handleClearModalDesc={
+                                            this.handleClearModalDesc
+                                        }
+                                    />
+                                ) : (
+                                    <Box responsive={true} background="#F8F8F8">
+                                        <WrapperRow>
+                                            {this.state.values.length > 2 &&
+                                            this.state.projects.length > 2 ? (
+                                                <Box
+                                                    margin={{ top: 'medium' }}
+                                                    animation="pulse"
+                                                >
+                                                    <Button
+                                                        label="Essentialize"
+                                                        color="magenta"
+                                                        margin="small"
+                                                        pad={{
+                                                            horizontal: 'xsmall'
+                                                        }}
+                                                        onClick={
+                                                            this.state.values
+                                                                .length > 2 &&
+                                                            this.state.projects
+                                                                .length > 2
+                                                                ? this
+                                                                      .handleFilter
+                                                                : () =>
+                                                                      alert(
+                                                                          'Each list must have atleast 3 items!'
+                                                                      )
+                                                        }
+                                                    />
+                                                </Box>
+                                            ) : (
+                                                <Box margin={{ top: 'medium' }}>
+                                                    <Button
+                                                        label="Essentialize"
+                                                        margin="small"
+                                                        disabled={true}
+                                                    />
+                                                </Box>
+                                            )}
+                                        </WrapperRow>
+                                           
 
-                    <WrapperRow responsive={true}>
-                      <Container>
-                        <ValueForm
-                          name={valueName}
-                          description={valueDescription}
-                          id={valueId}
-                          isFiltered={valueIsFiltered}
-                          values={values}
-                          isModify={isModify}
-                          initialLoad={this.initialValueLoad}
-                          handleFilter={this.handleValueFilter}
-                          handleChange={this.handleChange}
-                          handleModify={this.handleValueModify}
-                          handleDelete={this.handleValueDelete}
-                          onDragEnd={this.onValueDragEnd}
-                          handleSubmit={this.handleValueSubmit}
-                        />
-                      </Container>
-                      <Container>
-                        <ProjectForm
-                          name={projectName}
-                          description={projectDescription}
-                          id={projectId}
-                          isFiltered={projectIsFiltered}
-                          projects={projects}
-                          isModify={isModify}
-                          initialLoad={this.initialProjectLoad}
-                          handleFilter={this.handleProjectFilter}
-                          handleChange={this.handleChange}
-                          handleModify={this.handleProjectModify}
-                          handleDelete={this.handleProjectDelete}
-                          onDragEnd={this.onProjectDragEnd}
-                          handleSubmit={this.handleProjectSubmit}
-                        />
-                      </Container>
-                    </WrapperRow>
-                  </Box>
-                )}
-              </Box>
-              <Footer />
-            </>
-          )}
-        </ResponsiveContext.Consumer>
-      </Grommet>
-    );
-  }
+                                        <WrapperRow
+                                            responsive={true}
+                                        >
+                                                
+                                        <Container>
+                                            <ValueForm
+                                                name={valueName}
+                                                description={valueDescription}
+                                                id={valueId}
+                                                isFiltered={valueIsFiltered}
+                                                values={values}
+                                                isModify={isModify}
+                                                initialLoad={
+                                                    this.initialValueLoad
+                                                }
+                                                handleFilter={
+                                                    this.handleValueFilter
+                                                }
+                                                handleChange={this.handleChange}
+                                                handleModify={
+                                                    this.handleValueModify
+                                                }
+                                                handleDelete={
+                                                    this.handleValueDelete
+                                                }
+                                                onDragEnd={this.onValueDragEnd}
+                                                handleSubmit={
+                                                    this.handleValueSubmit
+                                                }
+                                            />
+                                                </Container>
+                                                <Container>
+                                            <ProjectForm
+                                                name={projectName}
+                                                description={projectDescription}
+                                                id={projectId}
+                                                isFiltered={projectIsFiltered}
+                                                projects={projects}
+                                                isModify={isModify}
+                                                initialLoad={
+                                                    this.initialProjectLoad
+                                                }
+                                                handleFilter={
+                                                    this.handleProjectFilter
+                                                }
+                                                handleChange={this.handleChange}
+                                                handleModify={
+                                                    this.handleProjectModify
+                                                }
+                                                handleDelete={
+                                                    this.handleProjectDelete
+                                                }
+                                                onDragEnd={
+                                                    this.onProjectDragEnd
+                                                }
+                                                handleSubmit={
+                                                    this.handleProjectSubmit
+                                                }
+                                            />
+                                            </Container>
+                                        </WrapperRow>
+                                            <Box background="#F8F8F8">
+                                                <WrapperRow>
+                                                    <ValueList
+                                                        handleFilter={this.handleValueFilter}
+                                                        onDragEnd={this.onValueDragEnd}
+                                                        handleModify={this.handleValueModify}
+                                                        handleChange={this.handleChange}
+                                                        handleDelete={this.handleValueDelete}
+                                                        values={this.state.values}
+                                                        modify={this.state.id === ''}
+                                                        isFiltered={this.state.isFiltered}
+                                                    />
+                                                    <ProjectList
+                                                        handleFilter={this.handleProjectFilter}
+                                                        onDragEnd={this.onProjectDragEnd}
+                                                        handleModify={this.handleProjectModify}
+                                                        handleChange={this.handleChange}
+                                                        handleDelete={this.handleProjectDelete}
+                                                        projects={this.state.projects}
+                                                        modify={this.state.id === ""}
+                                                        isFiltered={this.state.isFiltered}
+                                                    />
+                                                </WrapperRow>
+                                            </Box>  
+                                    </Box>
+                                    
+                                )}
+                               
+                                <Box
+                                    direction="column"
+                                    border={{ color: 'brand', size: 'small' }}
+                                >
+                                </Box>
+                            </Box>
+                            <Footer />
+                        </>
+                    )}
+                </ResponsiveContext.Consumer>
+            </Grommet>
+        );
+    }
 }
 
 export default withAuthenticator(App, true, [], null, theme);
