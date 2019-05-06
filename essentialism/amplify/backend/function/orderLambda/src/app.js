@@ -1,9 +1,8 @@
-
 var express = require('express');
 var bodyParser = require('body-parser');
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
-require('dotenv').config()
-var stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+// require('dotenv').config()
+var stripe = require('stripe')(process.env.SECRET_KEY);
 // var stripe = require('stripe')(process.env.SECRET_KEY)
 
 // declare a new express app
@@ -22,23 +21,21 @@ app.use(function(req, res, next) {
 });
 
 app.post('/charge', async (req, res) => {
-  const { token } = req.body
-  const { currency, amount, description } = req.body.charge
+    const { token } = req.body;
+    const { currency, amount, description } = req.body.charge;
 
-  try {
-    const charge = await stripe.charges.create({
-      source: token.id,
-      amount,
-      currency,
-      description
-    })
-    res.json(charge)
-  }
-  catch(err) {
-    res.status(500).json({ error: err })
-  }
-
-})
+    try {
+        const charge = await stripe.charges.create({
+            source: token.id,
+            amount,
+            currency,
+            description
+        });
+        res.json(charge);
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
 
 app.listen(3000, function() {
     console.log('App started');
