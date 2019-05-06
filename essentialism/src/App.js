@@ -479,27 +479,27 @@ class App extends React.Component {
                                             <Box background="#F8F8F8">
                                                 <WrapperRow>
                                                     <ValueList
-                                                        handleFilter={this.state.handleFilter}
-                                                        onDragEnd={this.state.onDragEnd}
-                                                        handleModify={this.state.handleModify}
-                                                        handleChange={this.state.handleChange}
-                                                        handleDelete={this.state.handleDelete}
+                                                        handleFilter={this.handleValueFilter}
+                                                        onDragEnd={this.onValueDragEnd}
+                                                        handleModify={this.handleValueModify}
+                                                        handleChange={this.handleChange}
+                                                        handleDelete={this.handleValueDelete}
                                                         values={this.state.values}
                                                         modify={this.state.id === ''}
                                                         isFiltered={this.state.isFiltered}
                                                     />
                                                     <ProjectList
-                                                        handleFilter={this.state.handleFilter}
-                                                        onDragEnd={this.state.onDragEnd}
-                                                        handleModify={this.state.handleModify}
-                                                        handleChange={this.state.handleChange}
-                                                        handleDelete={this.state.handleDelete}
+                                                        handleFilter={this.handleProjectFilter}
+                                                        onDragEnd={this.onProjectDragEnd}
+                                                        handleModify={this.handleProjectModify}
+                                                        handleChange={this.handleChange}
+                                                        handleDelete={this.handleProjectDelete}
                                                         projects={this.state.projects}
                                                         modify={this.state.id === ""}
                                                         isFiltered={this.state.isFiltered}
                                                     />
                                                 </WrapperRow>
-                                            </Box>
+                                            </Box>  
                                     </Box>
                                     
                                 )}
