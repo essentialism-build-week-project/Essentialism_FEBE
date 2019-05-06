@@ -2,8 +2,7 @@ import { Box, Button, Heading, Paragraph } from "grommet";
 import { Edit, Trash } from "grommet-icons";
 import React from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-// import { Box, Card, Flex, Heading, Text } from "rebass";
-// import { Button } from "../Global.Styles";
+
 
 export default function ValueList(props) {
   const values = props.isFiltered
@@ -22,7 +21,7 @@ export default function ValueList(props) {
                     key={value.id}
                     draggableId={value.id}
                     index={index}
-                  >
+                  > 
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}

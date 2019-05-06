@@ -80,7 +80,7 @@ export default class ProjectForm extends Component {
                         </Box>
                     </Form>
                 </Box>
-            </div>
+            </div> 
         );
     }
 }

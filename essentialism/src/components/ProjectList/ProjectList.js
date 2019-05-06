@@ -2,7 +2,7 @@ import { Box, Button, Heading, Paragraph } from "grommet";
 import { Edit, Trash } from "grommet-icons";
 import React from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-// import { Button } from "../Global.Styles";
+
 
 export default function ProjectList(props) {
   const projects = props.isFiltered
