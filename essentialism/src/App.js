@@ -476,33 +476,34 @@ class App extends React.Component {
                                             />
                                             </Container>
                                         </WrapperRow>
+                                            <Box background="#F8F8F8">
+                                                <WrapperRow>
+                                                    <ValueList
+                                                        handleFilter={this.state.handleFilter}
+                                                        onDragEnd={this.state.onDragEnd}
+                                                        handleModify={this.state.handleModify}
+                                                        handleChange={this.state.handleChange}
+                                                        handleDelete={this.state.handleDelete}
+                                                        values={this.state.values}
+                                                        modify={this.state.id === ''}
+                                                        isFiltered={this.state.isFiltered}
+                                                    />
+                                                    <ProjectList
+                                                        handleFilter={this.state.handleFilter}
+                                                        onDragEnd={this.state.onDragEnd}
+                                                        handleModify={this.state.handleModify}
+                                                        handleChange={this.state.handleChange}
+                                                        handleDelete={this.state.handleDelete}
+                                                        projects={this.state.projects}
+                                                        modify={this.state.id === ""}
+                                                        isFiltered={this.state.isFiltered}
+                                                    />
+                                                </WrapperRow>
+                                            </Box>
                                     </Box>
                                     
                                 )}
-                                <Box background="#F8F8F8">
-                                <WrapperRow>
-                                <ValueList
-                                    handleFilter={this.state.handleFilter}
-                                    onDragEnd={this.state.onDragEnd}
-                                    handleModify={this.state.handleModify}
-                                    handleChange={this.state.handleChange}
-                                    handleDelete={this.state.handleDelete}
-                                    values={this.state.values}
-                                    modify={this.state.id === ''}
-                                    isFiltered={this.state.isFiltered}
-                                />
-                                <ProjectList
-                                    handleFilter={this.state.handleFilter}
-                                    onDragEnd={this.state.onDragEnd}
-                                    handleModify={this.state.handleModify}
-                                    handleChange={this.state.handleChange}
-                                    handleDelete={this.state.handleDelete}
-                                    projects={this.state.projects}
-                                    modify={this.state.id === ""}
-                                    isFiltered={this.state.isFiltered}
-                                />
-                                </WrapperRow>
-                                </Box>
+                               
                                 <Box
                                     direction="column"
                                     border={{ color: 'brand', size: 'small' }}
